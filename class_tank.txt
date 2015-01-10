@@ -6,11 +6,12 @@ public class Tank{
 	public int width;	//rozmiary
 	public int controller; 	//gracz 1, 2 lub AI
 	public int direction; 	//np. 0 = góra, 1 = prawo itd.
+	const public int speed;
+	public int lives;	//¿ycia
 	public Image spriteUp;
 	public Image spriteRight;
 	public Image spriteDown;
 	public Image spriteLeft;//grafiki (w miejsce Image typ z biblioteki)
-	const public int speed;
 	/* public bool invincible: wersja zaawansowana - czo³g po trafieniu/respawnie
 	jest niezniszczalny przez kilka sekund */
 	
@@ -40,5 +41,11 @@ public class Terrain // blok terenu (np. 32x32p), ca³a mapa bêdzie tablic¹
 	public int width;
 	public Image sprite;
 	public bool isPassable;	//czy przez ten teren da siê przejechaæ/strzelaæ?
-	/*wersja zaawansowana - teren który mo¿na zniszczyæ po x strza³ach?*/
+	public bool canShotThrough; //czy przez teren mo¿na strzelaæ?
+	public bool isDestructible; //zniszczalny?
+	/* public int hitPoints;	zale¿y czy teren bêdzie niszczony jednym czy kilkoma strza³ami, */
+	public void TakeDamage();//proponujê dorzuciæ metodê do podmieniania sprite'ów
+				 //i zmiany w³aœciwoœci terenu po zniszczeniu
+				 //(np. ¿eby przez zburzon¹ œcianê da³o siê przejechaæ)
+
 }
