@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" onKeyPressed="#handleMainMenuKeyPressedAction" prefHeight="480.0" prefWidth="512.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="battlecityput.FXMLDocumentController">
+    <children>
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <ImageView fitHeight="140.0" fitWidth="380.0" layoutX="66.0" layoutY="80.0" onKeyPressed="#handleMainMenuKeyPressedAction">
+         <image>
+            <Image url="@logo.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="208.0" layoutY="274.0" onKeyPressed="#handleMainMenuKeyPressedAction" strokeType="OUTSIDE" strokeWidth="0.0" text="2 PLAYERS">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="164.0" layoutY="250.0" onKeyPressed="#handleMainMenuKeyPressedAction" onMouseClicked="#handleMainMenuTankClicked">
+         <image>
+            <Image url="@tank.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="216.0" layoutY="372.0" onKeyPressed="#handleMainMenuKeyPressedAction" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2015" textAlignment="CENTER">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="110.0" layoutY="415.0" onKeyPressed="#handleMainMenuKeyPressedAction" strokeType="OUTSIDE" strokeWidth="0.0" text="ALL RIGHTS RESERVED" textAlignment="CENTER">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+    </children>
+</AnchorPane>
