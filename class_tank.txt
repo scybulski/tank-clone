@@ -1,4 +1,4 @@
-public class Tank{
+﻿public class Tank{
 	public int id;
 	public int x;
 	public int y; 		//wspó³rzêdne
@@ -6,7 +6,7 @@ public class Tank{
 	public int width;	//rozmiary
 	public int controller; 	//gracz 1, 2 lub AI
 	public int direction; 	//np. 0 = góra, 1 = prawo itd.
-	const public int speed;
+	public final int speed;
 	public int lives;	//¿ycia
 	public Image spriteUp;
 	public Image spriteRight;
@@ -27,7 +27,7 @@ public class Bullet{
 	public int height;
 	public int width;	//wspó³rzêdne i rozmiary
 	public Image sprite;	//grafika
-	const public int speed;
+	public final int speed;
 
 	public void MoveBullet();
 	public void DetectHit();
