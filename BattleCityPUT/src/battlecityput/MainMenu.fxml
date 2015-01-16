@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.canvas.*?>
@@ -9,33 +10,49 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" onKeyPressed="#handleMainMenuKeyPressedAction" prefHeight="480.0" prefWidth="512.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="battlecityput.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="512.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="battlecityput.FXMLDocumentController">
     <children>
+      <TextField fx:id="testTextField" editable="false" layoutY="2.0" onKeyPressed="#handleMainMenuKeyPressedAction" opacity="0.0" />
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <ImageView fitHeight="140.0" fitWidth="380.0" layoutX="66.0" layoutY="80.0" onKeyPressed="#handleMainMenuKeyPressedAction">
+      <ImageView fitHeight="140.0" fitWidth="380.0" layoutX="66.0" layoutY="80.0">
          <image>
             <Image url="@logo.png" />
          </image>
       </ImageView>
-      <Text fill="WHITE" layoutX="208.0" layoutY="274.0" onKeyPressed="#handleMainMenuKeyPressedAction" strokeType="OUTSIDE" strokeWidth="0.0" text="2 PLAYERS">
+      <Text fill="WHITE" layoutX="208.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2 PLAYERS">
          <font>
             <Font size="28.0" />
          </font>
       </Text>
-      <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="164.0" layoutY="250.0" onKeyPressed="#handleMainMenuKeyPressedAction" onMouseClicked="#handleMainMenuTankClicked">
+      <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="164.0" layoutY="250.0">
          <image>
             <Image url="@tank.png" />
          </image>
       </ImageView>
-      <Text fill="WHITE" layoutX="216.0" layoutY="372.0" onKeyPressed="#handleMainMenuKeyPressedAction" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2015" textAlignment="CENTER">
+      <Text fill="WHITE" layoutX="110.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ALL RIGHTS RESERVED" textAlignment="CENTER">
          <font>
             <Font size="28.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="110.0" layoutY="415.0" onKeyPressed="#handleMainMenuKeyPressedAction" strokeType="OUTSIDE" strokeWidth="0.0" text="ALL RIGHTS RESERVED" textAlignment="CENTER">
+      <Text fill="WHITE" layoutX="216.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© 2015" textAlignment="CENTER">
          <font>
             <Font size="28.0" />
          </font>
       </Text>
+      <AnchorPane id="AnchorPane" fx:id="battlefield" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="512.0" style="-fx-background-color: gray;">
+         <children>
+            <Text layoutX="226.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="STAGE">
+               <font>
+                  <Font name="Monospaced Regular" size="16.0" />
+               </font>
+            </Text>
+            <Text fx:id="levelcounter" layoutX="285.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1">
+               <font>
+                  <Font name="Monospaced Regular" size="15.0" />
+               </font>
+            </Text>
+            <Rectangle fx:id="field" height="416.0" layoutX="32.0" layoutY="32.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="416.0" />
+         </children>
+      </AnchorPane>
     </children>
 </AnchorPane>
