@@ -1,0 +1,3 @@
+http://slick.ninjacave.com/wiki/index.php?title=Setting_up_Slick2D_with_NetBeansIDE
+LWJGL nie trzeba œci¹gaæ, wszystko, co potrzebne by³o chyba w Slick2D)
+(bez pkt. 4 w ostatniej sekcji)
