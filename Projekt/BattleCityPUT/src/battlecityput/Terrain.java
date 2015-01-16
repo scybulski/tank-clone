@@ -13,7 +13,6 @@ public class Terrain
 
     public static int TILESIZE;
     
-    
     public Terrain() throws SlickException
     {
         map = new TiledMap("surowce/map.tmx");

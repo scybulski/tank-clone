@@ -10,12 +10,15 @@ public class Tank
     private Rectangle pos;
     private float posX, posY;
     private float vel = 0.1f;
+    private int direction; // 0-up 1-right 2-down 3-left
+    private int ID;
     
-    public Tank() throws SlickException
+    public Tank(int ID) throws SlickException
     {
+        this.ID = ID;
         posX = 26f;
         posY = 26f;
-        
+        direction = 1;
         pos = new Rectangle(0, 0, Terrain.TILESIZE, Terrain.TILESIZE);
         
         sprite = new Image("surowce/tank.png");
@@ -45,6 +48,16 @@ public class Tank
         return posY;
     }
     
+    public int getDirection()
+    {
+        return direction;
+    }
+    
+    public void setDirection(int newDirection)
+    {
+        this.direction = newDirection;
+    }
+            
     public void changePosX(float dv)
     {
         posX += dv*vel;
