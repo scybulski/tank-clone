@@ -54,8 +54,8 @@
   </tile>
  </tileset>
  <layer name="Tile Layer 1" width="4" height="30">
-  <data encoding="base64" compression="zlib">
-   eJxNzddGBmAAxvG3dQF9RYMGERGNW2jQoK+IiGjcQoMGDSIiGrfQoEGDBhHRLXwVDRo0iIiO+tHB9x78+D9HT00IoZY66ulngEGGWGaFVda4JJX970r/RPtXV2Wkd7XujXafXoz2kj6P9oX+iva3rshM70rdHe0ePR/tBX3MCaec8cY7H3xSkhVCKWWU00GSTrqYZoZZ5tjngEOOeOKZF14p8FtIEcW00Eob7YwzwSRTbLPDLnvccc8Dj+TmhJAgj3waaKSJZoYZYZQx1tlgky1SXHPDLX+do0XZ
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA03N10YGYADG8bd1AX1FgwYREY1baNCgr4iIaNxCgwYNIiIat9CgQYMGEdEtfBUNGjSIiI760cH3Hvz4P0dPTQihljrq6WeAQYZYZoVV1rgklf3vSv9E+1dXZaR3te6Ndp9ejPaSPo/2hf6K9reuyEzvSt0d7R49H+0FfcwJp5zxxjsffFKSFUIpZZTTQZJOuphmhlnm2OeAQ4544pkXXinwW0gRxbTQShvtjDPBJFNss8Mue9xxzwOP5OaEkCCPfBpopIlmhhlhlDHW2WCTLVJcc8MtfxFbiaDgAQAA
   </data>
  </layer>
 </map>

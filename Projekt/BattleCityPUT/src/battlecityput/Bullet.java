@@ -15,6 +15,9 @@ public class Bullet {
     private Direction shootDirection;
     private boolean isFired;
     
+    private Integer margin = 32;
+
+    
     public Bullet(Rectangle tankPos, Direction tankDirection) throws SlickException
     {   
         sprite = new Image("surowce/bullet.png");
@@ -71,12 +74,12 @@ public class Bullet {
     
     public void setPosX(float posX)
     {
-        this.posX = posX;
+        this.posX = posX+margin;
     }
     
     public void setPosY(float posY)
     {
-        this.posY = posY;
+        this.posY = posY+margin;
     }
     
     public Direction getShootDirection()

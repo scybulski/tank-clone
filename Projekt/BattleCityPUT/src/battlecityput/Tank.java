@@ -9,7 +9,7 @@ public class Tank
     private Image sprite;
     private Rectangle pos;
     private float posX, posY;
-    private float vel = 0.1f;
+    private final float vel;
     private Bullet.Direction direction;
     private int ID;
     
@@ -18,6 +18,7 @@ public class Tank
         this.ID = ID;
         posX = 26f;
         posY = 26f;
+        vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
         pos = new Rectangle(0, 0, Terrain.TILESIZE, Terrain.TILESIZE);
         

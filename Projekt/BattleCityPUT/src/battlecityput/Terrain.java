@@ -17,9 +17,12 @@ public class Terrain
     {
         map = new TiledMap("surowce/map.tmx");
         
+        
+        
         TILESIZE = map.getTileWidth();
         
         blocks = new ArrayList<Rectangle>();
+        
     }
     
     public void addBlock(Rectangle rect)
