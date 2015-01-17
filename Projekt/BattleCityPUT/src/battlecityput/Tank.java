@@ -16,13 +16,12 @@ public class Tank
     public Tank(int ID) throws SlickException
     {
         this.ID = ID;
-        posX = 26f;
-        posY = 26f;
+        posX = 64f;
+        posY = 64f;
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
-        pos = new Rectangle(0, 0, Terrain.TILESIZE, Terrain.TILESIZE);
-        
         sprite = new Image("surowce/tank.png");
+        pos = new Rectangle((int)posX, (int)posY, sprite.getWidth(), sprite.getWidth());
     }
     
     public Rectangle getRect(float dx, float dy)
@@ -39,13 +38,17 @@ public class Tank
         sprite.setRotation(angle);
         switch((int)angle / 90)
         {
-            case 0: this.direction = Bullet.Direction.RIGHT;
+            case 0:
+                this.direction = Bullet.Direction.RIGHT;
                 break;
-            case 1: this.direction = Bullet.Direction.DOWN;
+            case 1:
+                this.direction = Bullet.Direction.DOWN;
                 break;
-            case 2: this.direction = Bullet.Direction.LEFT;
+            case 2:
+                this.direction = Bullet.Direction.LEFT;
                 break;
-            case 3: this.direction = Bullet.Direction.UP;
+            case 3:
+                this.direction = Bullet.Direction.UP;
                 break;
         }
     }
@@ -68,11 +71,6 @@ public class Tank
     public float getPosY()
     {
         return posY;
-    }
-    
-    public Bullet.Direction getDirection()
-    {
-        return direction;
     }
             
     public void changePosX(float dv)

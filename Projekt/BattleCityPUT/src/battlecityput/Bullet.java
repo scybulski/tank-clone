@@ -4,16 +4,14 @@ import java.awt.Rectangle;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Bullet {
-
+public class Bullet
+{
     private Image sprite;
     private Rectangle pos;
     private float posX, posY;
-    private final float velX, velY, VEL = 0.2f;
-    //private int shootDirection;
+    private final float velX, velY, VEL = 0.25f;
     public enum Direction { RIGHT, DOWN, LEFT, UP; }
     private Direction shootDirection;
-    private boolean isFired;
     
     private Integer margin = 32;
 
@@ -58,51 +56,10 @@ public class Bullet {
                 break;
         }
         
-        //isFired = false;
         pos = new Rectangle((int)posX, (int)posY, sprite.getWidth(), sprite.getHeight());
     }
     
-    public float getPosX()
-    {
-        return posX;
-    }
-    
-    public float getPosY()
-    {
-        return posY;
-    }
-    
-    public void setPosX(float posX)
-    {
-        this.posX = posX+margin;
-    }
-    
-    public void setPosY(float posY)
-    {
-        this.posY = posY+margin;
-    }
-    
-    public Direction getShootDirection()
-    {
-        return shootDirection;
-    }
-    
-//    public void setShootDirection(int shootDirection)
-//    {
-//        this.shootDirection = shootDirection;
-//    }
-    
-    public boolean checkIfFired()
-    {
-        return isFired;
-    }
-    
-    public void setIsFired(boolean isFired)
-    {
-        this.isFired = isFired;
-    }
-    
-    public Rectangle getRect(float delta/*float dx, float dy*/)
+    public Rectangle getRect(float delta)
     {
         pos.x = (int)(posX + delta*velX);
         pos.y = (int)(posY + delta*velY);
@@ -120,22 +77,4 @@ public class Bullet {
     {
         sprite.draw((int)posX, (int)posY);
     }
-    
-//    public void changePosX(float dv)
-//    {
-//        posX += dv*vel;
-//    }
-//    
-//    public void changePosY(float dv)
-//    {
-//        posY += dv*vel;
-//    }
-//    
-//    public void Move(float dv)
-//    {
-//        if(shootDirection == 0) changePosX(dv);
-//        else if(shootDirection == 1) changePosY(dv);
-//        else if(shootDirection == 2) changePosX(-dv);
-//        else if(shootDirection == 3) changePosY(-dv);
-//    }
 }

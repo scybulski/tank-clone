@@ -20,7 +20,7 @@ public class BattleCityPUT extends BasicGame
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground;
     
-    private Integer margin = 32;
+    public final static Integer margin = 32;
     
     public BattleCityPUT()
     {
@@ -61,24 +61,12 @@ public class BattleCityPUT extends BasicGame
                 String property = terrain.getMap().getTileProperty(tile, "blocked", "false");
                 if("true".equals(property))
                 {
-                    terrain.addBlock(new Rectangle(x * Terrain.TILESIZE, y * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
+                    terrain.addBlock(new Rectangle((x+1) * Terrain.TILESIZE, (y+1) * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
                 }
             }
         }
+        
         counters = new Counters();
-        for(int x = 0; x < counters.getMap().getWidth(); x++)
-        {
-            for(int y = 0; y < counters.getMap().getHeight(); y++)
-            {
-                int tile = counters.getMap().getTileId(x, y, 0);
-                String property = counters.getMap().getTileProperty(tile, "blocked", "false");
-                if("true".equals(property))
-                {
-                    counters.addBlock(new Rectangle(x * Terrain.TILESIZE, y * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
-                }
-            }
-        }
-
 }
     
     @Override
@@ -99,7 +87,6 @@ public class BattleCityPUT extends BasicGame
         {
             if(!terrain.checkCollision(tank.getRect(-delta, 0)))
             {
-                //tank.setDirection(3);
                 tank.rotate(180);
                 tank.changePosX(-delta);
             }
@@ -108,7 +95,6 @@ public class BattleCityPUT extends BasicGame
         {
             if(!terrain.checkCollision(tank.getRect(0, -delta)))
             {
-                //tank.setDirection(0);
                 tank.rotate(270);
                 tank.changePosY(-delta);
             }
@@ -117,7 +103,6 @@ public class BattleCityPUT extends BasicGame
         {
             if(!terrain.checkCollision(tank.getRect(0, delta)))
             {
-                //tank.setDirection(2);
                 tank.rotate(90);
                 tank.changePosY(delta);
             }
@@ -126,15 +111,9 @@ public class BattleCityPUT extends BasicGame
         if(input.isKeyPressed(Input.KEY_SPACE)) 
         {
             tank.shoot();
-            
-//            if(!bullet.checkIfFired())
-//            {
-//                bullet.setIsFired(true);
-//                bullet.setShootedDirection(tank.getDirection());
-//            }
         }
         
-        for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); ) //(Bullet b : objects)
+        for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); )
         {
             Bullet b = iterator.next();
             if(!terrain.checkCollision(b.getRect(delta)))
@@ -146,11 +125,6 @@ public class BattleCityPUT extends BasicGame
                 iterator.remove();
             }
         }
-        
-//        if(bullet.checkIfFired())
-//        {
-//            bullet.Move(delta);
-//        }
     }
     
     @Override
@@ -160,7 +134,7 @@ public class BattleCityPUT extends BasicGame
         g.fill(battlefieldbackground);
             g.setColor(org.newdawn.slick.Color.black);
 
-        terrain.getMap().render(margin,margin);
+        terrain.draw();
         tank.draw();
         counters.getMap().render(448,0);
         
@@ -168,16 +142,6 @@ public class BattleCityPUT extends BasicGame
         {
             b.draw();
         }
-        
-//        if(bullet.checkIfFired())
-//        {
-//            bullet.sprite.draw((int)bullet.getPosX(), (int)bullet.getPosY());
-//        } 
-//        else 
-//        {
-//            bullet.setPosX(tank.getPosX() + ((tank.sprite.getWidth()/2)-bullet.sprite.getWidth()/2));
-//            bullet.setPosY(tank.getPosY() + ((tank.sprite.getHeight()/2)-bullet.sprite.getHeight()/2));
-//        }
     }
     
     public static void addObject(Bullet b)

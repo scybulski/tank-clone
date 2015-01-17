@@ -43,6 +43,11 @@ public class Terrain
         return false;
     }
     
+    public void draw()
+    {
+        map.render(BattleCityPUT.margin, BattleCityPUT.margin);
+    }
+    
     public TiledMap getMap()
     {
         return map;
