@@ -16,6 +16,8 @@ public class BattleCityPUT extends BasicGame
     private Tank tank;
     private Bullet bullet;
     
+    private Integer margin = 32;
+    
     public BattleCityPUT()
     {
         super("Battle City");
@@ -26,7 +28,7 @@ public class BattleCityPUT extends BasicGame
         try
         {
             AppGameContainer app = new AppGameContainer(new BattleCityPUT());
-            app.setDisplayMode(260, 260, false);
+            app.setDisplayMode(512, 480, false);
             app.start();
         }
         catch(SlickException e)
@@ -116,8 +118,7 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException
     {
-        terrain.getMap().render(0,0);
-        
+        terrain.getMap().render(margin,margin);        
         
         if(bullet.getIsFired())
         {
@@ -128,8 +129,7 @@ public class BattleCityPUT extends BasicGame
             bullet.setPosX(tank.getPosX() + ((tank.sprite.getWidth()/2)-bullet.sprite.getWidth()/2));
             bullet.setPosY(tank.getPosY() + ((tank.sprite.getHeight()/2)-bullet.sprite.getHeight()/2));
         }
-        
-        tank.sprite.draw((int)tank.getPosX(), (int)tank.getPosY());
+        tank.sprite.draw((int)tank.getPosX()+margin, (int)tank.getPosY()+margin);
 
     }
 }

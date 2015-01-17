@@ -13,6 +13,9 @@ public class Bullet {
     private int shootedDirection;
     private boolean isFired;
     
+    private Integer margin = 32;
+
+    
     public Bullet() throws SlickException
     {   
         posX = 26f;
@@ -34,12 +37,12 @@ public class Bullet {
     
     public void setPosX(float posX)
     {
-        this.posX = posX;
+        this.posX = posX+margin;
     }
     
     public void setPosY(float posY)
     {
-        this.posY = posY;
+        this.posY = posY+margin;
     }
     
     public int getshootedDirection()

@@ -16,8 +16,8 @@ public class Tank
     public Tank(int ID) throws SlickException
     {
         this.ID = ID;
-        posX = 26f;
-        posY = 26f;
+        posX = 32f;
+        posY = 32f;
         direction = 1;
         pos = new Rectangle(0, 0, Terrain.TILESIZE, Terrain.TILESIZE);
         
