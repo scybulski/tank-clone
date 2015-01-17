@@ -19,7 +19,7 @@ public class Tank
         posX = 32f;
         posY = 32f;
         direction = 1;
-        pos = new Rectangle(0, 0, Terrain.TILESIZE, Terrain.TILESIZE);
+        pos = new Rectangle(0, 0, Terrain.TILESIZE - 4, Terrain.TILESIZE - 4);
         
         sprite = new Image("surowce/tank.png");
     }

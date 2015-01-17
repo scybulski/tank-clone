@@ -2,6 +2,7 @@ package battlecityput;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -15,6 +16,8 @@ public class BattleCityPUT extends BasicGame
     private Terrain terrain;
     private Tank tank;
     private Bullet bullet;
+    private Counters counters;
+    private org.newdawn.slick.geom.Rectangle battlefieldbackground;
     
     private Integer margin = 32;
     
@@ -43,7 +46,10 @@ public class BattleCityPUT extends BasicGame
         terrain = new Terrain();
         tank = new Tank(0);
         bullet = new Bullet();
+        counters = new Counters();
+        battlefieldbackground = new org.newdawn.slick.geom.Rectangle(margin, margin, 416, 416);
         
+                
         for(int x = 0; x < terrain.getMap().getWidth(); x++)
         {
             for(int y = 0; y < terrain.getMap().getHeight(); y++)
@@ -56,7 +62,21 @@ public class BattleCityPUT extends BasicGame
                 }
             }
         }
-    }
+        counters = new Counters();
+        for(int x = 0; x < counters.getMap().getWidth(); x++)
+        {
+            for(int y = 0; y < counters.getMap().getHeight(); y++)
+            {
+                int tile = counters.getMap().getTileId(x, y, 0);
+                String property = counters.getMap().getTileProperty(tile, "blocked", "false");
+                if("true".equals(property))
+                {
+                    counters.addBlock(new Rectangle(x * Terrain.TILESIZE, y * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
+                }
+            }
+        }
+
+}
     
     @Override
     public void update(GameContainer container, int delta) throws SlickException
@@ -118,7 +138,12 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException
     {
-        terrain.getMap().render(margin,margin);        
+        g.setBackground(org.newdawn.slick.Color.decode("#636363"));  //need2use Color from slick library
+        g.fill(battlefieldbackground);
+            g.setColor(org.newdawn.slick.Color.black);
+
+        terrain.getMap().render(margin,margin);
+        counters.getMap().render(448,0);
         
         if(bullet.getIsFired())
         {

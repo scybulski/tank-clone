@@ -37,4 +37,9 @@ class Counters {
         return map;
     }
     
+    public void addBlock(Rectangle rect)
+    {
+        blocks.add(rect);
+    }
+    
 }
