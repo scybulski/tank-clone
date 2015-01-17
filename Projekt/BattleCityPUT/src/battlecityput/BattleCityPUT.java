@@ -2,6 +2,7 @@ package battlecityput;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Iterator;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -14,7 +15,8 @@ public class BattleCityPUT extends BasicGame
 {
     private Terrain terrain;
     private Tank tank;
-    private Bullet bullet;
+    private static ArrayList<Bullet> objects;
+    //private Bullet bullet;
     
     public BattleCityPUT()
     {
@@ -40,7 +42,10 @@ public class BattleCityPUT extends BasicGame
     {
         terrain = new Terrain();
         tank = new Tank(0);
-        bullet = new Bullet();
+        
+        // lista obiektow do sprawdzania kolizji
+        objects = new ArrayList<Bullet>();
+        //bullet = new Bullet();
         
         for(int x = 0; x < terrain.getMap().getWidth(); x++)
         {
@@ -66,7 +71,7 @@ public class BattleCityPUT extends BasicGame
             if(!terrain.checkCollision(tank.getRect(delta, 0)))
             {
                 tank.rotate(0);
-                tank.setDirection(1);
+                //tank.setDirection(1);
                 tank.changePosX(delta);
             }
         }
@@ -74,7 +79,7 @@ public class BattleCityPUT extends BasicGame
         {
             if(!terrain.checkCollision(tank.getRect(-delta, 0)))
             {
-                tank.setDirection(3);
+                //tank.setDirection(3);
                 tank.rotate(180);
                 tank.changePosX(-delta);
             }
@@ -83,7 +88,7 @@ public class BattleCityPUT extends BasicGame
         {
             if(!terrain.checkCollision(tank.getRect(0, -delta)))
             {
-                tank.setDirection(0);
+                //tank.setDirection(0);
                 tank.rotate(270);
                 tank.changePosY(-delta);
             }
@@ -92,25 +97,40 @@ public class BattleCityPUT extends BasicGame
         {
             if(!terrain.checkCollision(tank.getRect(0, delta)))
             {
-                tank.setDirection(2);
+                //tank.setDirection(2);
                 tank.rotate(90);
                 tank.changePosY(delta);
             }
         }
         
-        if(input.isKeyPressed(Input.KEY_DELETE)) 
+        if(input.isKeyPressed(Input.KEY_SPACE)) 
         {
-            if(!bullet.getIsFired())
+            tank.shoot();
+            
+//            if(!bullet.checkIfFired())
+//            {
+//                bullet.setIsFired(true);
+//                bullet.setShootedDirection(tank.getDirection());
+//            }
+        }
+        
+        for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); ) //(Bullet b : objects)
+        {
+            Bullet b = iterator.next();
+            if(!terrain.checkCollision(b.getRect(delta)))
             {
-                bullet.setIsFired(true);
-                bullet.setShootedDirection(tank.getDirection());
+                b.move(delta);
+            }
+            else // kolizja - usuniecie
+            {
+                iterator.remove();
             }
         }
         
-        if(bullet.getIsFired())
-        {
-            bullet.Move(delta);
-        }
+//        if(bullet.checkIfFired())
+//        {
+//            bullet.Move(delta);
+//        }
     }
     
     @Override
@@ -118,18 +138,26 @@ public class BattleCityPUT extends BasicGame
     {
         terrain.getMap().render(0,0);
         
+        tank.draw();
         
-        if(bullet.getIsFired())
+        for(Bullet b : objects)
         {
-            bullet.sprite.draw((int)bullet.getPosX(), (int)bullet.getPosY());
-        } 
-        else 
-        {
-            bullet.setPosX(tank.getPosX() + ((tank.sprite.getWidth()/2)-bullet.sprite.getWidth()/2));
-            bullet.setPosY(tank.getPosY() + ((tank.sprite.getHeight()/2)-bullet.sprite.getHeight()/2));
+            b.draw();
         }
         
-        tank.sprite.draw((int)tank.getPosX(), (int)tank.getPosY());
-
+//        if(bullet.checkIfFired())
+//        {
+//            bullet.sprite.draw((int)bullet.getPosX(), (int)bullet.getPosY());
+//        } 
+//        else 
+//        {
+//            bullet.setPosX(tank.getPosX() + ((tank.sprite.getWidth()/2)-bullet.sprite.getWidth()/2));
+//            bullet.setPosY(tank.getPosY() + ((tank.sprite.getHeight()/2)-bullet.sprite.getHeight()/2));
+//        }
+    }
+    
+    public static void addObject(Bullet b)
+    {
+        objects.add(b);
     }
 }

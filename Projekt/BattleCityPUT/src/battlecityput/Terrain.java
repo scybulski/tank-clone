@@ -27,11 +27,11 @@ public class Terrain
         blocks.add(rect);
     }
     
-    public boolean checkCollision(Rectangle tankRect)
+    public boolean checkCollision(Rectangle objectRect)
     {   
         for(Rectangle rect : blocks)
         {
-            if(tankRect.intersects(rect))
+            if(objectRect.intersects(rect))
             {
                 return true;
             }

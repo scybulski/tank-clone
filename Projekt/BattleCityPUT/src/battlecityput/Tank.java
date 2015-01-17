@@ -6,11 +6,11 @@ import org.newdawn.slick.SlickException;
 
 public class Tank
 {
-    public Image sprite;
+    private Image sprite;
     private Rectangle pos;
     private float posX, posY;
     private float vel = 0.1f;
-    private int direction; // 0-up 1-right 2-down 3-left
+    private Bullet.Direction direction;
     private int ID;
     
     public Tank(int ID) throws SlickException
@@ -18,7 +18,7 @@ public class Tank
         this.ID = ID;
         posX = 26f;
         posY = 26f;
-        direction = 1;
+        direction = Bullet.Direction.RIGHT;
         pos = new Rectangle(0, 0, Terrain.TILESIZE, Terrain.TILESIZE);
         
         sprite = new Image("surowce/tank.png");
@@ -36,6 +36,27 @@ public class Tank
     public void rotate(float angle)
     {
         sprite.setRotation(angle);
+        switch((int)angle / 90)
+        {
+            case 0: this.direction = Bullet.Direction.RIGHT;
+                break;
+            case 1: this.direction = Bullet.Direction.DOWN;
+                break;
+            case 2: this.direction = Bullet.Direction.LEFT;
+                break;
+            case 3: this.direction = Bullet.Direction.UP;
+                break;
+        }
+    }
+    
+    public void shoot() throws SlickException
+    {
+        BattleCityPUT.addObject(new Bullet(pos, direction));
+    }
+    
+    public void draw()
+    {
+        sprite.draw((int)posX, (int)posY);
     }
     
     public float getPosX()
@@ -48,14 +69,9 @@ public class Tank
         return posY;
     }
     
-    public int getDirection()
+    public Bullet.Direction getDirection()
     {
         return direction;
-    }
-    
-    public void setDirection(int newDirection)
-    {
-        this.direction = newDirection;
     }
             
     public void changePosX(float dv)
