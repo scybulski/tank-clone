@@ -1,16 +1,30 @@
 package battlecityput;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import sun.applet.Main;
 
 
 public class BattleCityPUT extends BasicGame
@@ -20,9 +34,14 @@ public class BattleCityPUT extends BasicGame
     private static ArrayList<Bullet> objects;
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground;
-
+    private Music startmusic;
+    private boolean playerenginesoundplaying;
+    private int isPlayerMoving;
     
     public final static Integer margin = 32;
+    private Clip startmusicclip;
+    private AudioInputStream inputStream;
+    private AudioClip shotsound, playerenginesound;
     
     public BattleCityPUT()
     {
@@ -50,6 +69,20 @@ public class BattleCityPUT extends BasicGame
         tank = new Tank(0);
         counters = new Counters();
         battlefieldbackground = new org.newdawn.slick.geom.Rectangle(margin, margin, 416, 416);
+        startmusic = new Music("surowce/start.ogg");
+        //shotsound = new Music("surowce/shot.ogg");
+        //playerenginesound = new Music("surowce/playerengine.ogg");
+
+        URL url;
+        try {
+            shotsound = Applet.newAudioClip(new URL("file:surowce/shot.wav"));
+            playerenginesound = Applet.newAudioClip(new URL("file:surowce/playerengine.wav"));
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        startmusic.play();
         
         // lista obiektow do sprawdzania kolizji
         objects = new ArrayList<Bullet>();
@@ -85,6 +118,7 @@ public class BattleCityPUT extends BasicGame
                 //tank.setDirection(1);
                 tank.changePosX(delta);
             }
+            isPlayerMoving = 11;
         }
         else if(input.isKeyDown(Input.KEY_LEFT))
         {
@@ -93,6 +127,7 @@ public class BattleCityPUT extends BasicGame
             {
                 tank.changePosX(-delta);
             }
+            isPlayerMoving = 11;
         }
         else if(input.isKeyDown(Input.KEY_UP))
         {
@@ -101,6 +136,7 @@ public class BattleCityPUT extends BasicGame
             {
                 tank.changePosY(-delta);
             }
+            isPlayerMoving = 11;
         }
         else if(input.isKeyDown(Input.KEY_DOWN))
         {
@@ -109,7 +145,10 @@ public class BattleCityPUT extends BasicGame
             {
                 tank.changePosY(delta);
             }
+            isPlayerMoving = 11;
         }
+        else
+            isPlayerMoving--;
         
         if(input.isKeyPressed(Input.KEY_SPACE)) 
         {
@@ -118,6 +157,8 @@ public class BattleCityPUT extends BasicGame
             counters.setLives1P(counters.getLives1P()+1);
             counters.takeLive2P();
             counters.increaseLevelNumber();  //testing purposes only END 
+            if(!startmusic.playing())
+                shotsound.play();
         }
         
         for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); )
@@ -131,6 +172,19 @@ public class BattleCityPUT extends BasicGame
             {
                 iterator.remove();
             }
+        }
+        if((isPlayerMoving > 0))
+        {
+            if(!playerenginesoundplaying && (!startmusic.playing()))
+            {
+                playerenginesound.loop();
+                playerenginesoundplaying = true;
+            }
+        }
+        else
+        {
+            playerenginesound.stop();
+            playerenginesoundplaying = false;
         }
     }
     
