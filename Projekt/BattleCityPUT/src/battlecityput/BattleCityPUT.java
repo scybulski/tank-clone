@@ -95,23 +95,13 @@ public class BattleCityPUT extends BasicGame
         Input input = container.getInput();
         if(levelchooser)
         {
-            if(input.isKeyDown(Input.KEY_UP))
+            if(input.isKeyPressed(Input.KEY_UP))
             {
                 counters.increaseLevelNumber();
-                try {
-                    Thread.sleep(99);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
-            else if(input.isKeyDown(Input.KEY_DOWN))
+            else if(input.isKeyPressed(Input.KEY_DOWN))
             {
                 counters.decreaseLevelNumber();
-                try {
-                    Thread.sleep(99);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
             if(input.isKeyDown(Input.KEY_ENTER))
             {
