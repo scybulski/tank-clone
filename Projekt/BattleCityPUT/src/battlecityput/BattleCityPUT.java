@@ -33,9 +33,9 @@ public class BattleCityPUT extends BasicGame
     private Tank tank;
     private static ArrayList<Bullet> objects;
     private Counters counters;
-    private org.newdawn.slick.geom.Rectangle battlefieldbackground;
+    private org.newdawn.slick.geom.Rectangle battlefieldbackground, grayforeground;
     private Music startmusic;
-    private boolean playerenginesoundplaying;
+    private boolean playerenginesoundplaying, levelchooser;
     private int isPlayerMoving;
     
     public final static Integer margin = 32;
@@ -65,7 +65,7 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void init(GameContainer container) throws SlickException
     {
-        terrain = new Terrain();
+        levelchooser = true; 
         tank = new Tank(0);
         counters = new Counters();
         battlefieldbackground = new org.newdawn.slick.geom.Rectangle(margin, margin, 416, 416);
@@ -81,26 +81,10 @@ public class BattleCityPUT extends BasicGame
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        startmusic.play();
-        
+                
         // lista obiektow do sprawdzania kolizji
         objects = new ArrayList<Bullet>();
-        
                 
-        for(int x = 0; x < terrain.getMap().getWidth(); x++)
-        {
-            for(int y = 0; y < terrain.getMap().getHeight(); y++)
-            {
-                int tile = terrain.getMap().getTileId(x, y, 0);
-                String property = terrain.getMap().getTileProperty(tile, "blocked", "false");
-                if("true".equals(property))
-                {
-                    terrain.addBlock(new Rectangle((x+1) * Terrain.TILESIZE, (y+1) * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
-                }
-            }
-        }
-        
         counters = new Counters();
         counters.startGame();
 }
@@ -109,82 +93,123 @@ public class BattleCityPUT extends BasicGame
     public void update(GameContainer container, int delta) throws SlickException
     {
         Input input = container.getInput();
-        
-        if(input.isKeyDown(Input.KEY_RIGHT))
+        if(levelchooser)
         {
-            tank.rotate(0);
-            if(!terrain.checkCollision(tank.getRect(delta, 0)))
+            if(input.isKeyDown(Input.KEY_UP))
             {
-                //tank.setDirection(1);
-                tank.changePosX(delta);
+                counters.increaseLevelNumber();
+                try {
+                    Thread.sleep(99);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            isPlayerMoving = 11;
-        }
-        else if(input.isKeyDown(Input.KEY_LEFT))
-        {
-            tank.rotate(180);
-            if(!terrain.checkCollision(tank.getRect(-delta, 0)))
+            else if(input.isKeyDown(Input.KEY_DOWN))
             {
-                tank.changePosX(-delta);
+                counters.decreaseLevelNumber();
+                try {
+                    Thread.sleep(99);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            isPlayerMoving = 11;
-        }
-        else if(input.isKeyDown(Input.KEY_UP))
-        {
-            tank.rotate(270);
-            if(!terrain.checkCollision(tank.getRect(0, -delta)))
+            if(input.isKeyDown(Input.KEY_ENTER))
             {
-                tank.changePosY(-delta);
-            }
-            isPlayerMoving = 11;
-        }
-        else if(input.isKeyDown(Input.KEY_DOWN))
-        {
-            tank.rotate(90);
-            if(!terrain.checkCollision(tank.getRect(0, delta)))
-            {
-                tank.changePosY(delta);
-            }
-            isPlayerMoving = 11;
-        }
-        else
-            isPlayerMoving--;
-        
-        if(input.isKeyPressed(Input.KEY_SPACE)) 
-        {
-            tank.shoot();
-            counters.tankSpawned();  //testing purposes only BEGIN
-            counters.setLives1P(counters.getLives1P()+1);
-            counters.takeLive2P();
-            counters.increaseLevelNumber();  //testing purposes only END 
-            if(!startmusic.playing())
-                shotsound.play();
-        }
-        
-        for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); )
-        {
-            Bullet b = iterator.next();
-            if(!terrain.checkCollision(b.getRect(delta)))
-            {
-                b.move(delta);
-            }
-            else // kolizja - usuniecie
-            {
-                iterator.remove();
-            }
-        }
-        if((isPlayerMoving > 0))
-        {
-            if(!playerenginesoundplaying && (!startmusic.playing()))
-            {
-                playerenginesound.loop();
-                playerenginesoundplaying = true;
+                levelchooser = false;
+                terrain = new Terrain("surowce/stages/"+counters.getLevelNuber()+".tmx");
+                for(int x = 0; x < terrain.getMap().getWidth(); x++)
+                {
+                    for(int y = 0; y < terrain.getMap().getHeight(); y++)
+                    {
+                        int tile = terrain.getMap().getTileId(x, y, 0);
+                        String property = terrain.getMap().getTileProperty(tile, "blocked", "false");
+                        if("true".equals(property))
+                        {
+                            terrain.addBlock(new Rectangle((x+1) * Terrain.TILESIZE, (y+1) * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
+                        }
+                    }
+                }
+                startmusic.play();
             }
         }
         else
         {
-            playerenginesound.stop();
-            playerenginesoundplaying = false;
+            if(input.isKeyDown(Input.KEY_RIGHT))
+            {
+                tank.rotate(0);
+                if(!terrain.checkCollision(tank.getRect(delta, 0)))
+                {
+                    //tank.setDirection(1);
+                    tank.changePosX(delta);
+                }
+                isPlayerMoving = 11;
+            }
+            else if(input.isKeyDown(Input.KEY_LEFT))
+            {
+                tank.rotate(180);
+                if(!terrain.checkCollision(tank.getRect(-delta, 0)))
+                {
+                    tank.changePosX(-delta);
+                }
+                isPlayerMoving = 11;
+            }
+            else if(input.isKeyDown(Input.KEY_UP))
+            {
+                tank.rotate(270);
+                if(!terrain.checkCollision(tank.getRect(0, -delta)))
+                {
+                    tank.changePosY(-delta);
+                }
+                isPlayerMoving = 11;
+            }
+            else if(input.isKeyDown(Input.KEY_DOWN))
+            {
+                tank.rotate(90);
+                if(!terrain.checkCollision(tank.getRect(0, delta)))
+                {
+                    tank.changePosY(delta);
+                }
+                isPlayerMoving = 11;
+            }
+            else
+                isPlayerMoving--;
+
+            if(input.isKeyPressed(Input.KEY_SPACE)) 
+            {
+                tank.shoot();
+                counters.tankSpawned();  //testing purposes only BEGIN
+                counters.setLives1P(counters.getLives1P()+1);
+                counters.takeLive2P();
+                counters.increaseLevelNumber();  //testing purposes only END 
+                if(!startmusic.playing())
+                    shotsound.play();
+            }
+
+            for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); )
+            {
+                Bullet b = iterator.next();
+                if(!terrain.checkCollision(b.getRect(delta)))
+                {
+                    b.move(delta);
+                }
+                else // kolizja - usuniecie
+                {
+                    iterator.remove();
+                }
+            }
+            if((isPlayerMoving > 0))
+            {
+                if(!playerenginesoundplaying && (!startmusic.playing()))
+                {
+                    playerenginesound.loop();
+                    playerenginesoundplaying = true;
+                }
+            }
+            else
+            {
+                playerenginesound.stop();
+                playerenginesoundplaying = false;
+            }
         }
     }
     
@@ -192,16 +217,23 @@ public class BattleCityPUT extends BasicGame
     public void render(GameContainer container, Graphics g) throws SlickException
     {
         g.setBackground(org.newdawn.slick.Color.decode("#636363"));  //need2use Color from slick library
-        g.fill(battlefieldbackground);
-            g.setColor(org.newdawn.slick.Color.black);
-        
-        terrain.draw();
-        tank.draw();
-        counters.drawCounters();
-        
-        for(Bullet b : objects)
+        if(levelchooser)
         {
-            b.draw();
+            counters.drawLevelChooser();
+        }
+        else
+        {
+            g.fill(battlefieldbackground);
+                g.setColor(org.newdawn.slick.Color.black);
+
+            terrain.draw();
+            tank.draw();
+            counters.drawCounters();
+
+            for(Bullet b : objects)
+            {
+                b.draw();
+            }
         }
     }
     

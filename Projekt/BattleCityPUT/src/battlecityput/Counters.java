@@ -7,6 +7,7 @@ package battlecityput;
 
 import static battlecityput.BattleCityPUT.margin;
 import java.awt.Rectangle;
+import java.io.File;
 import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -20,9 +21,8 @@ class Counters {
         
     private ArrayList<Rectangle> russianTanks;
 
-    private Rectangle tospawn;
-    private Rectangle spawned;
-    private Image countersFrame, russianTankIndicator;
+    private Rectangle chooser;
+    private Image countersFrame, russianTankIndicator, stageText;
     private Image num[];
 
 
@@ -44,6 +44,7 @@ class Counters {
     {
         countersFrame = new Image("surowce/counters.png");
         russianTankIndicator = new Image("surowce/russiantankindicator.png");
+        stageText = new Image("surowce/stage.png");
         
         num = new Image[10];
         for(int i = 0; i < 10; i++)
@@ -62,6 +63,8 @@ class Counters {
         lives1P = 2;
         lives2P = 2;
         level = 1;
+        
+        
     }
     
     public void drawCounters()
@@ -97,7 +100,19 @@ class Counters {
     
     public int increaseLevelNumber()
     {
-        level++;
+        System.out.println("Level up");
+        File f = new File("surowce/stages/"+(level+1)+".tmx");
+        if(f.exists() && !f.isDirectory())
+        {
+            level++;
+        }
+        return level;
+    }
+
+    public int decreaseLevelNumber()
+    {
+        if(level > 1)
+            level--;
         return level;
     }
     
@@ -153,5 +168,11 @@ class Counters {
         if(lives2P < 0)
             lives2P = 0;
         return lives2P;
+    }
+    
+    public void drawLevelChooser()
+    {
+        stageText.draw(192, 224);
+        showNumber(level, 288, 224);
     }
 }

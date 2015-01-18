@@ -13,9 +13,9 @@ public class Terrain
 
     public static int TILESIZE;
     
-    public Terrain() throws SlickException
+    public Terrain(String mapPath) throws SlickException
     {
-        map = new TiledMap("surowce/map.tmx");
+        map = new TiledMap(mapPath);
         
         
         
