@@ -21,7 +21,7 @@ public class Tank
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
         sprite = new Image("surowce/tank.png");
-        pos = new Rectangle((int)posX, (int)posY, sprite.getWidth(), sprite.getWidth());
+        pos = new Rectangle((int)posX, (int)posY, 32, 32);
     }
     
     public Rectangle getRect(float dx, float dy)
@@ -40,15 +40,31 @@ public class Tank
         {
             case 0:
                 this.direction = Bullet.Direction.RIGHT;
+                if((posY % 16) <= 8)
+                    posY -= posY % 16;
+                else
+                    posY += 16 - (posY % 16);
                 break;
             case 1:
                 this.direction = Bullet.Direction.DOWN;
+                if((posX % 16) <= 8)
+                    posX -= posX % 16;
+                else
+                    posX += 16 - (posX % 16);
                 break;
             case 2:
                 this.direction = Bullet.Direction.LEFT;
+                if((posY % 16) <= 8)
+                    posY -= posY % 16;
+                else
+                    posY += 16 - (posY % 16);
                 break;
             case 3:
                 this.direction = Bullet.Direction.UP;
+                if((posX % 16) <= 8)
+                    posX -= posX % 16;
+                else
+                    posX += 16 - (posX % 16);
                 break;
         }
     }
@@ -75,11 +91,17 @@ public class Tank
             
     public void changePosX(float dv)
     {
-        posX += dv*vel;
+        if((posX + dv*vel >= 32) && (posX+dv*vel <= 416))
+        {
+            posX += dv*vel;
+        }
     }
     
     public void changePosY(float dv)
     {
-        posY += dv*vel;
+        if((posY + dv*vel >= 32) && (posY+dv*vel <= 416))
+        {
+            posY += dv*vel;
+        }
     }
 } 

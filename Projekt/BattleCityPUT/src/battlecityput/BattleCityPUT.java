@@ -8,6 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -19,6 +20,7 @@ public class BattleCityPUT extends BasicGame
     private static ArrayList<Bullet> objects;
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground;
+
     
     public final static Integer margin = 32;
     
@@ -67,6 +69,7 @@ public class BattleCityPUT extends BasicGame
         }
         
         counters = new Counters();
+        counters.startGame();
 }
     
     @Override
@@ -76,34 +79,34 @@ public class BattleCityPUT extends BasicGame
         
         if(input.isKeyDown(Input.KEY_RIGHT))
         {
+            tank.rotate(0);
             if(!terrain.checkCollision(tank.getRect(delta, 0)))
             {
-                tank.rotate(0);
                 //tank.setDirection(1);
                 tank.changePosX(delta);
             }
         }
         else if(input.isKeyDown(Input.KEY_LEFT))
         {
+            tank.rotate(180);
             if(!terrain.checkCollision(tank.getRect(-delta, 0)))
             {
-                tank.rotate(180);
                 tank.changePosX(-delta);
             }
         }
         else if(input.isKeyDown(Input.KEY_UP))
         {
+            tank.rotate(270);
             if(!terrain.checkCollision(tank.getRect(0, -delta)))
             {
-                tank.rotate(270);
                 tank.changePosY(-delta);
             }
         }
         else if(input.isKeyDown(Input.KEY_DOWN))
         {
+            tank.rotate(90);
             if(!terrain.checkCollision(tank.getRect(0, delta)))
             {
-                tank.rotate(90);
                 tank.changePosY(delta);
             }
         }
@@ -111,6 +114,10 @@ public class BattleCityPUT extends BasicGame
         if(input.isKeyPressed(Input.KEY_SPACE)) 
         {
             tank.shoot();
+            counters.tankSpawned();  //testing purposes only BEGIN
+            counters.setLives1P(counters.getLives1P()+1);
+            counters.takeLive2P();
+            counters.increaseLevelNumber();  //testing purposes only END 
         }
         
         for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); )
@@ -133,10 +140,10 @@ public class BattleCityPUT extends BasicGame
         g.setBackground(org.newdawn.slick.Color.decode("#636363"));  //need2use Color from slick library
         g.fill(battlefieldbackground);
             g.setColor(org.newdawn.slick.Color.black);
-
+        
         terrain.draw();
         tank.draw();
-        counters.getMap().render(448,0);
+        counters.drawCounters();
         
         for(Bullet b : objects)
         {
