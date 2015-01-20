@@ -50,9 +50,8 @@ public class BattleCityPUT extends BasicGame
     int randomX;
     int randomY;
     boolean canSpawn;
-    int collision;
+    int collision = 0;
     int randomfire;
-    
     
     public BattleCityPUT()
     {
@@ -76,7 +75,7 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void init(GameContainer container) throws SlickException
     {
-        collision = 0;
+        
         ai = new Ai();
         levelchooser = true; 
         tank = new Tank();
@@ -135,7 +134,8 @@ public class BattleCityPUT extends BasicGame
                         }
                     }
                 }
-                //terrain.addBlock(new Rectangle(0,0,))
+
+
                 startmusic.play();
             }
         }
@@ -303,7 +303,6 @@ public class BattleCityPUT extends BasicGame
                     iterator.remove();
                 }
 
-               
             }
             if((isPlayerMoving > 0))
             {
@@ -348,6 +347,7 @@ public class BattleCityPUT extends BasicGame
             {
                 b.draw();
             }
+            
 
         }
     }

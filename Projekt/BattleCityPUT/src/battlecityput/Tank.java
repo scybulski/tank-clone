@@ -12,6 +12,7 @@ public class Tank
     private final float vel;
     private Bullet.Direction direction;
     private int ID;
+    private int lives;
     private float moveCoolDown;
     private int randomMove;
     public float shootCoolDown;
@@ -24,7 +25,7 @@ public class Tank
         posY = 64f;
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
-        
+        lives = 3;
         sprite = new Image("surowce/tank.png");
               
         pos = new Rectangle((int)posX, (int)posY, 32, 32);
@@ -37,6 +38,7 @@ public class Tank
         this.posX = posX;
         this.posY = posY;
         vel = 0.1f;
+        lives = 0;
         moveCoolDown = 0;
         shootCoolDown = 100;
         direction = Bullet.Direction.DOWN;
@@ -102,6 +104,16 @@ public class Tank
     public void draw()
     {
         sprite.draw((int)posX, (int)posY);
+    }
+    
+    public int getLives()
+    {
+        return lives;
+    }
+    
+    public void decreasLives()
+    {
+        lives --;
     }
     
     public int getRandomMove()
