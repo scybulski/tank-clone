@@ -12,16 +12,37 @@ public class Tank
     private final float vel;
     private Bullet.Direction direction;
     private int ID;
+    private float moveCoolDown;
+    private int randomMove;
+    public float shootCoolDown;
     
-    public Tank(int ID) throws SlickException
+    
+    public Tank() throws SlickException
     {
-        this.ID = ID;
+        ID = 1;
         posX = 64f;
         posY = 64f;
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
+        
         sprite = new Image("surowce/tank.png");
+              
         pos = new Rectangle((int)posX, (int)posY, 32, 32);
+    }
+    
+    //konstruktor dla neutralnych czolgow
+    public Tank(float posX, float posY) throws SlickException
+    {
+        ID = 0;
+        this.posX = posX;
+        this.posY = posY;
+        vel = 0.1f;
+        moveCoolDown = 0;
+        shootCoolDown = 100;
+        direction = Bullet.Direction.DOWN;
+        sprite = new Image("surowce/neutral_tank.png");
+        
+        pos = new Rectangle((int)this.posX, (int)this.posY, 32, 32);
     }
     
     public Rectangle getRect(float dx, float dy)
@@ -69,14 +90,53 @@ public class Tank
         }
     }
     
-    public void shoot() throws SlickException
+    public void shoot(int randomFire) throws SlickException
     {
+ 
         BattleCityPUT.addObject(new Bullet(pos, direction));
+        shootCoolDown = 300 + randomFire;
+   
     }
+
     
     public void draw()
     {
         sprite.draw((int)posX, (int)posY);
+    }
+    
+    public int getRandomMove()
+    {
+        return randomMove;
+    }
+    
+    public void setRandomMove(int randomMove)
+    {
+        this.randomMove = randomMove;
+    }
+    
+    public float getMoveCoolDown()
+    {
+        return moveCoolDown;
+    }
+    
+    public void setMoveCoolDown(float moveCoolDown)
+    {
+        this.moveCoolDown = moveCoolDown;
+    }
+    
+    public void decreaseMoveCoolDown(float value)
+    {
+        this.moveCoolDown -= value;
+    }
+    
+    public void decreaseShootCoolDown(float value)
+    {
+        this.shootCoolDown -= value;
+    }
+    
+    public float getShootCoolDown()
+    {
+        return shootCoolDown;
     }
     
     public float getPosX()
@@ -104,4 +164,15 @@ public class Tank
             posY += dv*vel;
         }
     }
+    
+    public void setPosY(float posY)
+    {
+        this.posY = posY;
+    }
+    
+    public void setPosX(float posX)
+    {
+        this.posX = posX;
+    }
+    
 } 

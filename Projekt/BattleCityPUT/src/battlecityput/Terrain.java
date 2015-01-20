@@ -16,12 +16,14 @@ public class Terrain
     public Terrain(String mapPath) throws SlickException
     {
         map = new TiledMap(mapPath);
-        
-        
-        
+
         TILESIZE = map.getTileWidth();
         
         blocks = new ArrayList<Rectangle>();
+        blocks.add(new Rectangle(0,0,32*15,32));
+        blocks.add(new Rectangle(0,32*14-1,32*15,32));
+        blocks.add(new Rectangle(0,32,32,32*13));
+        blocks.add(new Rectangle(32*14-1,32,32,32*13));
         
     }
     
@@ -46,6 +48,7 @@ public class Terrain
     public void draw()
     {
         map.render(BattleCityPUT.margin, BattleCityPUT.margin);
+        
     }
     
     public TiledMap getMap()

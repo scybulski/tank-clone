@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -24,6 +25,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Shape;
 import sun.applet.Main;
 
 
@@ -31,7 +33,9 @@ public class BattleCityPUT extends BasicGame
 {
     private Terrain terrain;
     private Tank tank;
+    private Ai ai;
     private static ArrayList<Bullet> objects;
+    private static ArrayList<Tank> neutrals;
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground, grayforeground;
     private Music startmusic;
@@ -42,6 +46,13 @@ public class BattleCityPUT extends BasicGame
     private Clip startmusicclip;
     private AudioInputStream inputStream;
     private AudioClip shotsound, playerenginesound;
+    
+    int randomX;
+    int randomY;
+    boolean canSpawn;
+    int collision;
+    int randomfire;
+    
     
     public BattleCityPUT()
     {
@@ -65,9 +76,13 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void init(GameContainer container) throws SlickException
     {
+        collision = 0;
+        ai = new Ai();
         levelchooser = true; 
-        tank = new Tank(0);
+        tank = new Tank();
         counters = new Counters();
+        
+        
         battlefieldbackground = new org.newdawn.slick.geom.Rectangle(margin, margin, 416, 416);
         startmusic = new Music("surowce/start.ogg");
         //shotsound = new Music("surowce/shot.ogg");
@@ -84,6 +99,7 @@ public class BattleCityPUT extends BasicGame
                 
         // lista obiektow do sprawdzania kolizji
         objects = new ArrayList<Bullet>();
+        neutrals = new ArrayList<Tank>();
                 
         counters = new Counters();
         counters.startGame();
@@ -124,6 +140,7 @@ public class BattleCityPUT extends BasicGame
         }
         else
         {
+            
             if(input.isKeyDown(Input.KEY_RIGHT))
             {
                 tank.rotate(0);
@@ -166,13 +183,111 @@ public class BattleCityPUT extends BasicGame
 
             if(input.isKeyPressed(Input.KEY_SPACE)) 
             {
-                tank.shoot();
+                tank.shoot(0);
                 counters.tankSpawned();  //testing purposes only BEGIN
                 counters.setLives1P(counters.getLives1P()+1);
                 counters.takeLive2P();
                 counters.increaseLevelNumber();  //testing purposes only END 
                 if(!startmusic.playing())
                     shotsound.play();
+            }
+
+            if(ai.getCurrent() < 8 && ai.getSpawned() < 21)
+            {
+                do
+                {
+                    Random posGenerator = new Random();
+                    randomX = posGenerator.nextInt(13*32);
+                    randomY = posGenerator.nextInt(13*32);
+                    if(!terrain.checkCollision(new Rectangle(randomX, randomY, 32, 32)))
+                    {
+                        for(Tank t : neutrals)
+                        {
+                            if(t.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))) collision ++;
+                        }
+                        if(collision == 0)
+                            canSpawn = true;
+                    }
+                    else canSpawn = false;
+                    collision = 0;
+                }
+                while(!canSpawn);
+                ai.spawn(randomX, randomY);
+                ai.addCurrent();
+                ai.addSpawned();
+            }
+            
+            
+            for(Tank t : neutrals)
+            {
+                if(t.getMoveCoolDown() <= 0)
+                {
+                Random moveGenerator = new Random();
+                t.setRandomMove(moveGenerator.nextInt(4));
+                t.setMoveCoolDown(150);
+                }
+                else
+                {
+                    switch(t.getRandomMove())
+                    {
+                        case 0 :
+                        {
+                            t.rotate(0);
+                            if(!terrain.checkCollision(t.getRect(delta, 0)))
+                            {
+                                t.changePosX(delta);
+                            }
+                            else
+                                t.setMoveCoolDown(0);
+                            t.decreaseMoveCoolDown(delta*0.1f);
+                        }
+                        break;
+                        case 1 :
+                        {
+                             t.rotate(180);
+                            if(!terrain.checkCollision(t.getRect(-delta, 0)))
+                            {
+                                t.changePosX(-delta);
+                            }
+                            else
+                                t.setMoveCoolDown(0);
+                            t.decreaseMoveCoolDown(delta*0.1f);
+                        }
+                        break;
+                        case 2 :
+                        {
+                            t.rotate(270);
+                            if(!terrain.checkCollision(t.getRect(0, -delta)))
+                            {
+                                t.changePosY(-delta);
+                            }
+                            else
+                                t.setMoveCoolDown(0);
+                            t.decreaseMoveCoolDown(delta*0.1f);
+                        }
+                        break;
+                        case 3 :
+                        {
+                            t.rotate(90);
+                            if(!terrain.checkCollision(t.getRect(0, delta)))
+                            {
+                                t.changePosY(delta);
+                            }
+                            else
+                                t.setMoveCoolDown(0);
+                            t.decreaseMoveCoolDown(delta*0.1f);                        
+                        }
+                        break;
+                            
+                    }
+                }
+                if(t.getShootCoolDown() <= 0)
+                {
+                    Random fireGenerator = new Random();
+                    
+                    t.shoot(fireGenerator.nextInt(50));
+                }
+                else t.decreaseShootCoolDown(delta * 0.1f);
             }
 
             for(Iterator<Bullet> iterator = objects.iterator(); iterator.hasNext(); )
@@ -186,6 +301,7 @@ public class BattleCityPUT extends BasicGame
                 {
                     iterator.remove();
                 }
+               
             }
             if((isPlayerMoving > 0))
             {
@@ -206,6 +322,7 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException
     {
+        
         g.setBackground(org.newdawn.slick.Color.decode("#636363"));  //need2use Color from slick library
         if(levelchooser)
         {
@@ -219,16 +336,27 @@ public class BattleCityPUT extends BasicGame
             terrain.draw();
             tank.draw();
             counters.drawCounters();
-
+            
+            for(Tank t : neutrals)
+            {
+                t.draw();
+            }
+            
             for(Bullet b : objects)
             {
                 b.draw();
             }
+
         }
     }
     
     public static void addObject(Bullet b)
     {
         objects.add(b);
+    }
+    
+    public static void addNeutralTank(Tank t)
+    {
+        neutrals.add(t);
     }
 }
