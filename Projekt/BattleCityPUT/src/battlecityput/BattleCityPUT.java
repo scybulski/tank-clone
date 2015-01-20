@@ -135,6 +135,7 @@ public class BattleCityPUT extends BasicGame
                         }
                     }
                 }
+                //terrain.addBlock(new Rectangle(0,0,))
                 startmusic.play();
             }
         }
@@ -197,8 +198,8 @@ public class BattleCityPUT extends BasicGame
                 do
                 {
                     Random posGenerator = new Random();
-                    randomX = posGenerator.nextInt(13*32);
-                    randomY = posGenerator.nextInt(13*32);
+                    randomX = posGenerator.nextInt(353) + margin;
+                    randomY = posGenerator.nextInt(353) + margin;
                     if(!terrain.checkCollision(new Rectangle(randomX, randomY, 32, 32)))
                     {
                         for(Tank t : neutrals)
@@ -301,6 +302,7 @@ public class BattleCityPUT extends BasicGame
                 {
                     iterator.remove();
                 }
+
                
             }
             if((isPlayerMoving > 0))
