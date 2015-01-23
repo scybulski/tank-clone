@@ -39,7 +39,8 @@ public class BattleCityPUT extends BasicGame
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground, grayforeground;
     private Music startmusic;
-    private boolean playerenginesoundplaying,russiantanksoundplaying, levelchooser;
+    private boolean playerenginesoundplaying,russiantanksoundplaying, levelchooser,
+            isgameover;
     private int isPlayerMoving;
     private long lasttimetanksspawned;
     
@@ -122,6 +123,7 @@ public class BattleCityPUT extends BasicGame
             if(input.isKeyDown(Input.KEY_ENTER))
             {
                 levelchooser = false;
+                isgameover = false;
                 terrain = new Terrain("surowce/stages/"+counters.getLevelNuber()+".tmx");
                 for(int x = 0; x < terrain.getMap().getWidth(); x++)
                 {
@@ -343,6 +345,10 @@ public class BattleCityPUT extends BasicGame
         if(levelchooser)
         {
             counters.drawLevelChooser();
+        }
+        else if(isgameover)
+        {
+            counters.drawGameOver();
         }
         else
         {
