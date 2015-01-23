@@ -45,6 +45,7 @@ class Counters {
         {
             num_bg[i] = new Image("surowce/numbers_black_gray/"+i+".png");
             num_wb[i] = new Image("surowce/numbers_white_black/"+i+".png");
+            num_ob[i] = new Image("surowce/numbers_orange_black/"+i+".png");
         }
         
         russianTanks = new ArrayList<Rectangle>();
@@ -82,6 +83,25 @@ class Counters {
             while(number != 0)
             {
                 num_wb[number % 10].draw(x-16,y);
+                x -= 16;
+                number /= 10;
+            }            
+        }
+    }
+    
+    private void showNumber_orangeblack(int number, int x, int y)  //cooordinates indicate top-right corner
+    {
+        if(number < 0)
+            number = 0;  //avoid crash on below zero
+        if(number == 0)
+        {
+            num_ob[0].draw(x-16,y);
+        }
+        else
+        {
+            while(number != 0)
+            {
+                num_ob[number % 10].draw(x-16,y);
                 x -= 16;
                 number /= 10;
             }            
@@ -246,6 +266,8 @@ class Counters {
         showNumber_whiteblack(opponentDestroyed1P*500, 112,224);
         showNumber_whiteblack(opponentDestroyed2P, 320,224);
         showNumber_whiteblack(opponentDestroyed2P*500, 400,224);
-        showNumber_whiteblack(russianDestroyed2P*100+opponentDestroyed2P*500,224,256);
+        showNumber_whiteblack(opponentDestroyed1P+russianDestroyed1P,224,256);
+        showNumber_orangeblack(russianDestroyed1P*100+opponentDestroyed1P*500,175,128);
+        showNumber_orangeblack(russianDestroyed2P*100+opponentDestroyed2P*500,464,128);
     }
 }
