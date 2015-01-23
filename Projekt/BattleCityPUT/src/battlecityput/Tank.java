@@ -6,7 +6,7 @@ import org.newdawn.slick.SlickException;
 
 public class Tank
 {
-    private Image sprite;
+    private Image sprite1,sprite2;
     private Rectangle pos;
     private float posX, posY;
     private final float vel;
@@ -15,6 +15,7 @@ public class Tank
     private int lives;
     private float moveCoolDown;
     private int randomMove;
+    private boolean frame;
     public float shootCoolDown;
     
     
@@ -26,8 +27,9 @@ public class Tank
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
         lives = 3;
-        sprite = new Image("surowce/tank.png");
-              
+        sprite1 = new Image("surowce/tankI.png");  //player I
+        sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
+        
         pos = new Rectangle((int)posX, (int)posY, 32, 32);
     }
     
@@ -42,8 +44,8 @@ public class Tank
         moveCoolDown = 0;
         shootCoolDown = 100;
         direction = Bullet.Direction.DOWN;
-        sprite = new Image("surowce/neutral_tank.png");
-        
+        sprite1 = new Image("surowce/neutral_tank.png");
+        sprite2 = new Image("surowce/neutral_tank2.png");
         pos = new Rectangle((int)this.posX, (int)this.posY, 32, 32);
     }
     
@@ -58,7 +60,9 @@ public class Tank
     // obrocenie DO danego kata
     public void rotate(float angle)
     {
-        sprite.setRotation(angle);
+        sprite1.setRotation(angle);
+        sprite2.setRotation(angle);
+        frame = !frame ;
         switch((int)angle / 90)
         {
             case 0:
@@ -103,7 +107,10 @@ public class Tank
     
     public void draw()
     {
-        sprite.draw((int)posX, (int)posY);
+        if(frame)        
+            sprite1.draw((int)posX, (int)posY);
+        else
+            sprite2.draw((int)posX, (int)posY);
     }
     
     public int getLives()

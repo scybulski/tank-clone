@@ -59,7 +59,7 @@ class Counters {
     {
         System.out.println(" Start Game");
         countersFrame.draw(margin+416+32, margin);
-        russianTanksLeft=20;
+        russianTanksLeft=21;
         lives1P = 2;
         lives2P = 2;
         level = 1;
