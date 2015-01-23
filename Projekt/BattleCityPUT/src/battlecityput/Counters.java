@@ -22,22 +22,33 @@ class Counters {
     private ArrayList<Rectangle> russianTanks;
 
     private Rectangle chooser;
-    private Image countersFrame, russianTankIndicator, stageText;
+    private Image countersFrame, russianTankIndicator, stageText, gameover;
     private Image num[];
 
 
     public static int TILESIZE;
     
-    public int russianTanksLeft, lives1P, lives2P, level;
+    public int russianTanksLeft, lives1P, lives2P, level, points1P, points2P,
+            russianDestroyed1P, russianDestroyed2P, opponentDestroyed1P, opponentDestroyed2P;
 
     
-    private void showNumber(int number, int x, int y)
+    private void showNumber(int number, int x, int y)  //cooordinates indicate top-right corner
     {
         if(number < 0)
             number = 0;  //avoid crash on below zero
-        if(number/10 != 0)
-            num[(number/10) % 10].draw(x, y);  //10's digit  //%10 to avoid error on 3digits
-        num[number % 10].draw(x+16, y);  //1's digit
+        if(number == 0)
+        {
+            num[0].draw(x-16,y);
+        }
+        else
+        {
+            while(number != 0)
+            {
+                num[number % 10].draw(x-16,y);
+                x -= 16;
+                number /= 10;
+            }            
+        }
     }
 
     public Counters() throws SlickException
@@ -45,6 +56,7 @@ class Counters {
         countersFrame = new Image("surowce/counters.png");
         russianTankIndicator = new Image("surowce/russiantankindicator.png");
         stageText = new Image("surowce/stage.png");
+        gameover = new Image("surowce/gameoversummary.png");
         
         num = new Image[10];
         for(int i = 0; i < 10; i++)
@@ -62,6 +74,8 @@ class Counters {
         russianTanksLeft=21;
         lives1P = 2;
         lives2P = 2;
+        points1P = 0;
+        points2P = 0;
         level = 1;
         
         
@@ -80,9 +94,9 @@ class Counters {
                 else
                     break;
             }
-        showNumber(lives1P, margin+416+16, margin+256);
-        showNumber(lives2P, margin+416+16, margin+304);
-        showNumber(level, margin+416+16, margin+366);
+        showNumber(lives1P, margin+416+48, margin+256);
+        showNumber(lives2P, margin+416+48, margin+304);
+        showNumber(level, margin+416+48, margin+366);
     }
 
     public int tankSpawned()  //returns number of tanks to spawn
@@ -170,9 +184,38 @@ class Counters {
         return lives2P;
     }
     
+    public int update1PDestroyedRussian()
+    {
+        russianDestroyed1P++;
+        return russianDestroyed1P;
+    }
+    
+    public int update1PDestroyedOpponent()
+    {
+        opponentDestroyed1P++;
+        return opponentDestroyed1P;
+    }
+
+    public int update2PDestroyedRussian()
+    {
+        russianDestroyed2P++;
+        return russianDestroyed2P;
+    }
+    
+    public int update2PDestroyedOpponent()
+    {
+        opponentDestroyed2P++;
+        return opponentDestroyed2P;
+    }
+
     public void drawLevelChooser()
     {
         stageText.draw(192, 224);
-        showNumber(level, 288, 224);
+        showNumber(level, 310, 224);
+    }
+    
+    public void drawGameOver()
+    {
+        gameover.draw();
     }
 }
