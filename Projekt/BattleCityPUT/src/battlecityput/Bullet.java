@@ -4,9 +4,10 @@ import java.awt.Rectangle;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Bullet
+public class Bullet extends GameObject
 {
     private Image sprite;
+    private Tank parentTank;
     private Rectangle pos;
     private float posX, posY;
     private final float velX, velY, VEL = 0.25f;
@@ -16,39 +17,42 @@ public class Bullet
     private Integer margin = 32;
 
     
-    public Bullet(Rectangle tankPos, Direction tankDirection) throws SlickException
+    public Bullet(Tank tank) throws SlickException
     {   
         sprite = new Image("surowce/bullet.png");
-        shootDirection = tankDirection;
+        parentTank = tank;
+        parentTank.setFireState(true);
+        shootDirection = tank.getDirection();
+        pos = new Rectangle((int)tank.getPosX(), (int)tank.getPosY(), sprite.getWidth(), sprite.getHeight());
         
         switch(shootDirection)
         {
             case RIGHT:
                 velX = VEL;
                 velY = 0;
-                posX = tankPos.x + tankPos.width;
-                posY = tankPos.y + tankPos.width / 2 - sprite.getWidth() / 2;
+                posX = pos.x + tank.getRect(0,0).width;
+                posY = pos.y + tank.getRect(0,0).width / 2 - pos.width / 2;
                 break;
                 
             case DOWN:
                 velX = 0;
                 velY = VEL;
-                posX = tankPos.x + tankPos.width / 2 - sprite.getWidth() / 2;
-                posY = tankPos.y + tankPos.width;
+                posX =  pos.x + tank.getRect(0,0).width / 2 - pos.width / 2;
+                posY =  pos.y + tank.getRect(0,0).width;
                 break;
                 
             case LEFT:
                 velX = -VEL;
                 velY = 0;
-                posX = tankPos.x;
-                posY = tankPos.y + tankPos.width / 2 - sprite.getWidth() / 2;
+                posX = pos.x;
+                posY = pos.y + tank.getRect(0,0).width / 2 - pos.width / 2;
                 break;
                 
             case UP:
                 velX = 0;
                 velY = -VEL;
-                posX = tankPos.x + tankPos.width / 2 - sprite.getWidth() / 2;
-                posY = tankPos.y;
+                posX = pos.x + tank.getRect(0,0).width / 2 - pos.width / 2;
+                posY = pos.y;
                 break;
                 
             default:
@@ -56,7 +60,8 @@ public class Bullet
                 break;
         }
         
-        pos = new Rectangle((int)posX, (int)posY, sprite.getWidth(), sprite.getHeight());
+        pos.x = (int)posX;
+        pos.y = (int)posY;
     }
     
     public Rectangle getRect(float delta)
@@ -67,12 +72,35 @@ public class Bullet
         return pos;
     }
     
+    @Override
+    public boolean collides(Rectangle rect)
+    {
+        return pos.intersects(rect);
+    }
+    
+    @Override
+    public Rectangle getHitBox()
+    {
+        return pos;
+    }
+    
+    
+    @Override
+    public void handleCollision()
+    {
+        parentTank.setFireState(false);
+    }
+    
+    @Override
     public void move(float delta)
     {
         posX += delta*velX;
         posY += delta*velY;
+        pos.x = (int)posX;
+        pos.y = (int)posY;
     }
     
+    @Override
     public void draw()
     {
         sprite.draw((int)posX, (int)posY);

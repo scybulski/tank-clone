@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Tank
+public class Tank extends GameObject
 {
     private Image sprite1,sprite2;
     private Rectangle pos;
@@ -16,6 +16,7 @@ public class Tank
     private float moveCoolDown;
     private int randomMove;
     private boolean frame;
+    private boolean bulletFired;
     public float shootCoolDown;
     
     
@@ -27,6 +28,7 @@ public class Tank
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
         lives = 3;
+        bulletFired = false;
         sprite1 = new Image("surowce/tankI.png");  //player I
         sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
         
@@ -40,7 +42,8 @@ public class Tank
         this.posX = posX;
         this.posY = posY;
         vel = 0.05f;
-        lives = 0;
+        lives = 1;
+        bulletFired = false;
         moveCoolDown = 0;
         shootCoolDown = 100;
         direction = Bullet.Direction.DOWN;
@@ -56,6 +59,23 @@ public class Tank
         
         return pos;
     }
+    
+    @Override
+    public boolean collides(Rectangle rect)
+    {
+        return true;
+    }
+    
+    @Override
+    public Rectangle getHitBox()
+    {
+        return pos;
+    }
+    
+    // deklaracja z koniecznosci dziedziczenia
+    @Override
+    public void move(float d)
+    {}
     
     // obrocenie DO danego kata
     public void rotate(float angle)
@@ -96,15 +116,32 @@ public class Tank
         }
     }
     
-    public void shoot(int randomFire) throws SlickException
+    public boolean shoot(int randomFire) throws SlickException
     {
- 
-        BattleCityPUT.addObject(new Bullet(pos, direction));
-        shootCoolDown = 300 + randomFire;
-   
+        if(!bulletFired)
+        {
+            BattleCityPUT.addObject(new Bullet(this));
+            shootCoolDown = 300 + randomFire;
+            return true;
+        }
+        return false;
+    }
+    
+    
+    public void setFireState(boolean state)
+    {
+        bulletFired = state;
+    }
+    
+    
+    @Override
+    public void handleCollision()
+    {
+        
     }
 
     
+    @Override
     public void draw()
     {
         if(frame)        
@@ -113,14 +150,19 @@ public class Tank
             sprite2.draw((int)posX, (int)posY);
     }
     
+    public Bullet.Direction getDirection()
+    {
+        return direction;
+    }
+    
     public int getLives()
     {
         return lives;
     }
     
-    public void decreasLives()
+    public void decreaseLives()
     {
-        lives --;
+        lives--;
     }
     
     public int getRandomMove()

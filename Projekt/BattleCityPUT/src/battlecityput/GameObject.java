@@ -1,11 +1,16 @@
 package battlecityput;
 
+import java.awt.Rectangle;
 
 public abstract class GameObject
 {
-    private float posX, posY;
+    public abstract boolean collides(Rectangle rect);
     
-    public void draw()
-    {
-    }
+    public abstract void draw();
+    
+    public abstract Rectangle getHitBox();
+    
+    public abstract void handleCollision();
+    
+    public abstract void move(float delta);
 } 
