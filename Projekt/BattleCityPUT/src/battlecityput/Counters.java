@@ -22,34 +22,14 @@ class Counters {
     private ArrayList<Rectangle> russianTanks;
 
     private Rectangle chooser;
-    private Image countersFrame, russianTankIndicator, stageText, gameover;
-    private Image num[];
+    private Image countersFrame, russianTankIndicator, stageText, gameover,
+            num_bg[], num_wb[], num_ob[];
 
 
     public static int TILESIZE;
     
     public int russianTanksLeft, lives1P, lives2P, level, points1P, points2P,
             russianDestroyed1P, russianDestroyed2P, opponentDestroyed1P, opponentDestroyed2P;
-
-    
-    private void showNumber(int number, int x, int y)  //cooordinates indicate top-right corner
-    {
-        if(number < 0)
-            number = 0;  //avoid crash on below zero
-        if(number == 0)
-        {
-            num[0].draw(x-16,y);
-        }
-        else
-        {
-            while(number != 0)
-            {
-                num[number % 10].draw(x-16,y);
-                x -= 16;
-                number /= 10;
-            }            
-        }
-    }
 
     public Counters() throws SlickException
     {
@@ -58,13 +38,54 @@ class Counters {
         stageText = new Image("surowce/stage.png");
         gameover = new Image("surowce/gameoversummary.png");
         
-        num = new Image[10];
+        num_bg = new Image[10];
+        num_wb = new Image[10];
+        num_ob = new Image[10];
         for(int i = 0; i < 10; i++)
         {
-            num[i] = new Image("surowce/"+i+".png");
+            num_bg[i] = new Image("surowce/numbers_black_gray/"+i+".png");
+            num_wb[i] = new Image("surowce/numbers_white_black/"+i+".png");
         }
         
         russianTanks = new ArrayList<Rectangle>();
+    }
+    
+    private void showNumber_blackgray(int number, int x, int y)  //cooordinates indicate top-right corner
+    {
+        if(number < 0)
+            number = 0;  //avoid crash on below zero
+        if(number == 0)
+        {
+            num_bg[0].draw(x-16,y);
+        }
+        else
+        {
+            while(number != 0)
+            {
+                num_bg[number % 10].draw(x-16,y);
+                x -= 16;
+                number /= 10;
+            }            
+        }
+    }
+    
+    private void showNumber_whiteblack(int number, int x, int y)  //cooordinates indicate top-right corner
+    {
+        if(number < 0)
+            number = 0;  //avoid crash on below zero
+        if(number == 0)
+        {
+            num_wb[0].draw(x-16,y);
+        }
+        else
+        {
+            while(number != 0)
+            {
+                num_wb[number % 10].draw(x-16,y);
+                x -= 16;
+                number /= 10;
+            }            
+        }
     }
         
     public void startGame()
@@ -94,9 +115,9 @@ class Counters {
                 else
                     break;
             }
-        showNumber(lives1P, margin+416+48, margin+256);
-        showNumber(lives2P, margin+416+48, margin+304);
-        showNumber(level, margin+416+48, margin+366);
+        showNumber_blackgray(lives1P, margin+416+48, margin+256);
+        showNumber_blackgray(lives2P, margin+416+48, margin+304);
+        showNumber_blackgray(level, margin+416+48, margin+366);
     }
 
     public int tankSpawned()  //returns number of tanks to spawn
@@ -211,11 +232,20 @@ class Counters {
     public void drawLevelChooser()
     {
         stageText.draw(192, 224);
-        showNumber(level, 310, 224);
+        showNumber_blackgray(level, 310, 224);
     }
     
     public void drawGameOver()
     {
         gameover.draw();
+        showNumber_whiteblack(russianDestroyed1P, 224,176);
+        showNumber_whiteblack(russianDestroyed1P*100, 112,176);
+        showNumber_whiteblack(russianDestroyed2P, 320,176);
+        showNumber_whiteblack(russianDestroyed2P*100, 400,176);
+        showNumber_whiteblack(opponentDestroyed1P, 224,224);
+        showNumber_whiteblack(opponentDestroyed1P*500, 112,224);
+        showNumber_whiteblack(opponentDestroyed2P, 320,224);
+        showNumber_whiteblack(opponentDestroyed2P*500, 400,224);
+        showNumber_whiteblack(russianDestroyed2P*100+opponentDestroyed2P*500,224,256);
     }
 }
