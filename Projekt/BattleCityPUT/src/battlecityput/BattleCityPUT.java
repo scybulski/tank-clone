@@ -190,7 +190,7 @@ public class BattleCityPUT extends BasicGame
                     shotsound.play();
             }
 
-            if(ai.getCurrent() < 8 && counters.getRussianTanksLeft() > 0 && System.currentTimeMillis() > lasttimetanksspawned + 6543)
+            if(ai.getCurrent() < 8 && counters.getRussianTanksLeft() > 0 && System.currentTimeMillis() > lasttimetanksspawned + 5432)
             {
                 do
                 {

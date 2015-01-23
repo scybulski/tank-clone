@@ -39,7 +39,7 @@ public class Tank
         ID = 0;
         this.posX = posX;
         this.posY = posY;
-        vel = 0.1f;
+        vel = 0.05f;
         lives = 0;
         moveCoolDown = 0;
         shootCoolDown = 100;
