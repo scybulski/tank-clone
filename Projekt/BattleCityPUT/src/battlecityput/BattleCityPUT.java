@@ -349,9 +349,8 @@ public class BattleCityPUT extends BasicGame
             g.fill(battlefieldbackground);
                 g.setColor(org.newdawn.slick.Color.black);
 
-            terrain.draw();
+
             tank.draw();
-            counters.drawCounters();
             
             for(Tank t : neutrals)
             {
@@ -362,6 +361,8 @@ public class BattleCityPUT extends BasicGame
             {
                 b.draw();
             }
+            terrain.draw();
+            counters.drawCounters();
             
 
         }
