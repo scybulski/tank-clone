@@ -1,6 +1,12 @@
 package battlecityput;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Rectangle;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -18,9 +24,10 @@ public class Tank extends GameObject
     private boolean frame;
     private boolean bulletFired;
     public float shootCoolDown;
+    private AudioClip shotsound;
     
     
-    public Tank() throws SlickException
+    public Tank() throws SlickException, MalformedURLException
     {
         ID = 1;
         posX = 64f;
@@ -31,12 +38,12 @@ public class Tank extends GameObject
         bulletFired = false;
         sprite1 = new Image("surowce/tankI.png");  //player I
         sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
-        
+        shotsound = Applet.newAudioClip(new URL("file:surowce/shot.wav"));
         pos = new Rectangle((int)posX, (int)posY, 32, 32);
     }
     
     //konstruktor dla neutralnych czolgow
-    public Tank(float posX, float posY) throws SlickException
+    public Tank(float posX, float posY) throws SlickException, MalformedURLException
     {
         ID = 0;
         this.posX = posX;
@@ -49,6 +56,7 @@ public class Tank extends GameObject
         direction = Bullet.Direction.DOWN;
         sprite1 = new Image("surowce/neutral_tank.png");
         sprite2 = new Image("surowce/neutral_tank2.png");
+        shotsound = Applet.newAudioClip(new URL("file:surowce/shot.wav"));
         pos = new Rectangle((int)this.posX, (int)this.posY, 32, 32);
     }
     
@@ -116,12 +124,14 @@ public class Tank extends GameObject
         }
     }
     
-    public boolean shoot(int randomFire) throws SlickException
+    public boolean shoot(int randomFire, boolean doPlayShotSound) throws SlickException
     {
         if(!bulletFired)
         {
             BattleCityPUT.addObject(new Bullet(this));
             shootCoolDown = 300 + randomFire;
+            if(doPlayShotSound)
+                shotsound.play();
             return true;
         }
         return false;

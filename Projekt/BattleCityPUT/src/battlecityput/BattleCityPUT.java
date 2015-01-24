@@ -26,7 +26,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
-import sun.applet.Main;
+//import sun.applet.Main;
 
 
 public class BattleCityPUT extends BasicGame
@@ -48,7 +48,7 @@ public class BattleCityPUT extends BasicGame
     public final static Integer margin = 32;
     private Clip startmusicclip;
     private AudioInputStream inputStream;
-    private AudioClip shotsound, playerenginesound, russianenginesound;
+    private AudioClip playerenginesound, russianenginesound;
     
     int randomX;
     int randomY;
@@ -91,7 +91,6 @@ public class BattleCityPUT extends BasicGame
 
         URL url;
         try {
-            shotsound = Applet.newAudioClip(new URL("file:surowce/shot.wav"));
             playerenginesound = Applet.newAudioClip(new URL("file:surowce/playerengine.wav"));
             russianenginesound = Applet.newAudioClip(new URL("file:surowce/russiantank.wav"));
 
@@ -194,8 +193,7 @@ public class BattleCityPUT extends BasicGame
             if(input.isKeyPressed(Input.KEY_SPACE)) 
             {
                 //tank.shoot(0);
-                if(tank.shoot(0) && !startmusic.playing())
-                    shotsound.play();
+                tank.shoot(0, !startmusic.playing());
             }
 
             if(ai.getCurrent() < 8 && counters.getRussianTanksLeft() > 0 && System.currentTimeMillis() > lasttimetanksspawned + 5432)
@@ -309,7 +307,7 @@ public class BattleCityPUT extends BasicGame
                 {
                     Random fireGenerator = new Random();
                     
-                    t.shoot(fireGenerator.nextInt(50));
+                    t.shoot(fireGenerator.nextInt(50),false);  //false as russ tanks are silent
                 }
                 else t.decreaseShootCoolDown(delta * 0.1f);
             }
