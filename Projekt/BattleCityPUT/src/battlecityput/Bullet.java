@@ -6,15 +6,16 @@ import org.newdawn.slick.SlickException;
 
 public class Bullet extends GameObject
 {
-    private Image sprite;
+    private Image sprite,explosion[];
     private Tank parentTank;
     private Rectangle pos;
     private float posX, posY;
     private final float velX, velY, VEL = 0.25f;
     public enum Direction { RIGHT, DOWN, LEFT, UP; }
     private Direction shootDirection;
+    private boolean isexplosion = false;
     
-    private Integer margin = 32;
+    private Integer margin = 32, explosionFrame;
 
     
     public Bullet(Tank tank) throws SlickException
@@ -24,6 +25,12 @@ public class Bullet extends GameObject
         parentTank.setFireState(true);
         shootDirection = tank.getDirection();
         pos = new Rectangle((int)tank.getPosX(), (int)tank.getPosY(), sprite.getWidth(), sprite.getHeight());
+        explosion = new Image[2];
+        explosionFrame = 0;
+        isexplosion = false;
+        
+        for(int i = 0; i < 2; i++)
+            explosion[i] = new Image("surowce/expl"+i+".png");
         
         switch(shootDirection)
         {
@@ -89,6 +96,7 @@ public class Bullet extends GameObject
     public void handleCollision()
     {
         parentTank.setFireState(false);
+        isexplosion = true;
     }
     
     @Override
@@ -103,6 +111,16 @@ public class Bullet extends GameObject
     @Override
     public void draw()
     {
-        sprite.draw((int)posX, (int)posY);
+        if(isexplosion)
+        {
+            System.out.println("DRAW COLLISION");
+            if(explosionFrame < 10)
+            {
+                explosion[explosionFrame/5].draw((int)posX - 35, (int)posY - 35);
+                explosionFrame++;
+            }
+        }
+        else
+            sprite.draw((int)posX, (int)posY);
     }
 }

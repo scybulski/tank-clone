@@ -81,7 +81,11 @@ public class BattleCityPUT extends BasicGame
         
         ai = new Ai();
         levelchooser = true; 
-        tank = new Tank();
+        try {
+            tank = new Tank();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
+        }
         counters = new Counters();
         lasttimetanksspawned = System.currentTimeMillis();
         
@@ -229,7 +233,6 @@ public class BattleCityPUT extends BasicGame
             }
             else if(ai.getCurrent() == 0)
             {
-                System.out.println("Stopped russian sound "+ai.getClass() +ai.getSpawned());
                 russianenginesound.stop();
                 russiantanksoundplaying = false;
             }
