@@ -112,7 +112,6 @@ public class Tank extends GameObject
         return pos;
     }
     
-    // deklaracja z koniecznosci dziedziczenia
     @Override
     public void move(float d)
     {}

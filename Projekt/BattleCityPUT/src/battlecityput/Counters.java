@@ -114,8 +114,8 @@ class Counters {
         System.out.println(" Start Game");
         countersFrame.draw(margin+416+32, margin);
         russianTanksLeft=21;
-        lives1P = 2;
-        lives2P = 2;
+        lives1P = 3;
+        lives2P = 3;
         points1P = 0;
         points2P = 0;
         level = 1;

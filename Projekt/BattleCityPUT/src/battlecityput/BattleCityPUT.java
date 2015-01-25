@@ -420,14 +420,15 @@ public class BattleCityPUT extends BasicGame
                             {
                                 tank1PTillRespawn = 400;
                                 System.out.println("Took life 1P");
-          //                      do
-//                                {
-  //                                  randomX = posGenerator.nextInt(353) + margin;
-    //                                randomY = posGenerator.nextInt(353) + margin;
-      //                          }
-        //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))); collision ++;
-                                tank1P.setPosX(randomX);
-                                tank1P.setPosY(randomY);
+                                do
+                                {
+                                    randomX = posGenerator.nextInt(353) + margin;
+                                    randomY = posGenerator.nextInt(353) + margin;
+                                }
+                                while(terrain.checkCollision(new Rectangle(randomX, randomY, 32, 32)));
+                                
+                                playerTank.setPosX(randomX);
+                                playerTank.setPosY(randomY);
 
                                 //playerTank.decreaseLives();
                                 // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
@@ -435,12 +436,30 @@ public class BattleCityPUT extends BasicGame
                                 {
                                     //koniec
                                     // jakos to zrobic
-//                                    if(bullet.parentTank C players)
-//                                    counters.update2PDestroyedOpponent();
+                                    if(!obj.getParentTank().getIsNeutral())
+                                        counters.update2PDestroyedOpponent();
                                     gameOver = true;
                                 }
                                 obj.handleCollision();
-                                //iterator.remove();
+                                toRemove.add(obj);
+                                collides = true;
+                                break;
+                            }
+                        }
+                        
+                        for(Robot r : robots)
+                        {
+                            if(obj.collides(r.getTank()))
+                            {
+                                tank2PTillRespawn = 400;
+                                //dopisac reszte
+                                
+                                if(counters.takeLive2P() == 0)
+                                {
+                                    gameOver = true;
+                                }
+                                obj.handleCollision();
+                                toRemove.add(obj);
                                 collides = true;
                                 break;
                             }
