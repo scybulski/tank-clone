@@ -22,8 +22,9 @@ class Counters {
     private ArrayList<Rectangle> russianTanks;
 
     private Rectangle chooser;
-    private Image countersFrame, russianTankIndicator, stageText, gameover, winnerTxt, drawTxt,
-            num_bg[], num_wb[], num_ob[];
+    private Image countersFrame, russianTankIndicator, stageText, gameover, winnerTxt,
+            drawTxt, livesIndicator,
+            num_bg[], num_wb[], num_ob[], x_ob;
 
     public static int TILESIZE;
     
@@ -38,6 +39,8 @@ class Counters {
         gameover = new Image("surowce/gameoversummary.png");
         winnerTxt = new Image("surowce/winner.png");
         drawTxt = new Image("surowce/draw.png");
+        livesIndicator = new Image("surowce/livesindicator.png");
+        x_ob = new Image("surowce/numbers_orange_black/X.png");
         
         num_bg = new Image[10];
         num_wb = new Image[10];
@@ -93,7 +96,8 @@ class Counters {
     private void showNumber_orangeblack(int number, int x, int y)  //cooordinates indicate top-right corner
     {
         if(number < 0)
-            number = 0;  //avoid crash on below zero
+            x_ob.draw(x-16,y);  //avoid crash on below zero
+        else
         if(number == 0)
         {
             num_ob[0].draw(x-16,y);
@@ -114,8 +118,8 @@ class Counters {
         System.out.println(" Start Game");
         countersFrame.draw(margin+416+32, margin);
         russianTanksLeft=21;
-        lives1P = 3;
-        lives2P = 3;
+        lives1P = 2;
+        lives2P = 2;
         points1P = 0;
         points2P = 0;
         level = 1;
@@ -186,44 +190,44 @@ class Counters {
     
     public int getLives1P()
     {
-        return lives1P;
+        return lives1P+1;
     }
     
     public int setLives1P(int newLives)
     {
         lives1P = newLives;
-        if(lives1P < 0)
-            lives1P = 0;
-        return lives1P;
+        if(lives1P < -1)
+            lives1P = -1;
+        return lives1P+1;
     }
     
     public int takeLive1P()
     {
         lives1P--;
-        if(lives1P < 0)
-            lives1P = 0;
-        return lives1P;
+        if(lives1P < -1)
+            lives1P = -1;
+        return lives1P+1;
     }
     
     public int getLives2P()
     {
-        return lives2P;
+        return lives2P+1;
     }
     
     public int setLives2P(int newLives)
     {
         lives2P = newLives;
-        if(lives2P < 0)
-            lives2P = 0;
-        return lives2P;
+        if(lives2P < -1)
+            lives2P = -1;
+        return lives2P+1;
     }
     
     public int takeLive2P()
     {
         lives2P--;
-        if(lives2P < 0)
-            lives2P = 0;
-        return lives2P;
+        if(lives2P < -1)
+            lives2P = -1;
+        return lives2P+1;
     }
     
     public int update1PDestroyedRussian()
@@ -261,6 +265,11 @@ class Counters {
         gameover.draw();
         points1P = russianDestroyed1P*100+opponentDestroyed1P*500;
         points2P = russianDestroyed2P*100+opponentDestroyed2P*500;
+        livesIndicator.draw(44, 128);
+        showNumber_orangeblack(lives1P, 84,128);
+        livesIndicator.draw(340, 128);
+        showNumber_orangeblack(lives2P, 380
+                ,128);
         showNumber_whiteblack(russianDestroyed1P, 224,176);
         showNumber_whiteblack(russianDestroyed1P*100, 112,176);
         showNumber_whiteblack(russianDestroyed2P, 320,176);
@@ -272,24 +281,34 @@ class Counters {
         showNumber_whiteblack(opponentDestroyed1P+russianDestroyed1P,224,256);
         showNumber_orangeblack(points1P,175,128);
         showNumber_orangeblack(points2P,464,128);
-        if((lives1P == 0 && lives2P == 0) || (lives1P != 0 && lives2P != 0))
+        if((lives1P <= -1 && lives2P <= -1) || (lives1P != -1 && lives2P != -1))
         {
             if(points1P == points2P)
             {
+                //System.out.println("Case 1");
                 drawTxt.draw((gameover.getWidth()-drawTxt.getWidth())/2, 300);
             }
             else if(points1P > points2P)
             {
+                //System.out.println("Case 2");
                 winnerTxt.draw(175-winnerTxt.getWidth(), 300);
             }
             else
             {
+                //System.out.println("Case 3");
                 winnerTxt.draw(464-winnerTxt.getWidth(), 300);
             }
         }
-        else if(lives1P == 0)
+        else if(lives1P <= -1)
+        {
+            //System.out.println("Case 4");
             winnerTxt.draw(464-winnerTxt.getWidth(), 300);
+        }
         else
+        {
+            //System.out.println("Case 5");
             winnerTxt.draw(175-winnerTxt.getWidth(), 300);
+        }
+        //System.out.println("P1 "+lives1P+" "+ points1P+ " P2 "+lives2P+" " + points2P );
     }
 }
