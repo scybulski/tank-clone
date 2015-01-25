@@ -31,20 +31,31 @@ public class Tank extends GameObject
     public Tank(int player) throws SlickException, MalformedURLException
     {
         ID = player;
-        if(player == 1)
-        {
+        if (player==1){
             posX = 64f;
             posY = 64f;
             sprite1 = new Image("surowce/tankI.png");  //player I
             sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
         }
-        else
-        {
+        if (player==2){
             posX = 384f;
+            posY = 384f;
+            sprite1 = new Image("surowce/tankI.png");  //player I
+            sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
+        }
+        if (player==3){
+            posX = 64f;
             posY = 64f;
             sprite1 = new Image("surowce/tankI.png");  //player I
             sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
         }
+        else{
+            posX = 384f;
+            posY = 384f;
+            sprite1 = new Image("surowce/tankII.png");  //player I
+            sprite2 = new Image("surowce/tankII2.png");  //plaer I frame 2
+        }
+
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
         lives = 1;

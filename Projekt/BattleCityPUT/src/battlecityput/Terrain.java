@@ -52,4 +52,9 @@ public class Terrain
     {
         return map;
     }
+    
+    public ArrayList<Rectangle> get_blocks()
+    {
+        return blocks;
+    }
 } 
