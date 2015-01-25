@@ -440,6 +440,40 @@ public class BattleCityPUT extends BasicGame
                                 break;
                             }
                         }
+                        
+                        //Robot
+                        for(Robot r:robots)
+                        {
+                            Tank playerTank = r.get_tank();
+                            if(obj.collides(playerTank))
+                            {
+                                tank1PTillRespawn = 400;
+                                System.out.println("Took life 1P");
+          //                      do
+//                                {
+  //                                  randomX = posGenerator.nextInt(353) + margin;
+    //                                randomY = posGenerator.nextInt(353) + margin;
+      //                          }
+        //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))); collision ++;
+                                tank1P.setPosX(randomX);
+                                tank1P.setPosY(randomY);
+
+                                //playerTank.decreaseLives();
+                                // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
+                                if(counters.takeLive1P() == 0)  //(playerTank.getLives() <= 0)
+                                {
+                                    //koniec
+                                    // jakos to zrobic
+//                                    if(bullet.parentTank C players)
+//                                    counters.update2PDestroyedOpponent();
+                                    gameOver = true;
+                                }
+                                obj.handleCollision();
+                                //iterator.remove();
+                                collides = true;
+                                break;
+                            }
+                        }
                     }
 
                     // porusza tylko pociski
