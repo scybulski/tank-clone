@@ -22,7 +22,7 @@ public class Robot_Minim implements Robot {
     }
 
     @Override
-    public int moveTank(ArrayList<Rectangle> blocks, ArrayList<GameObject> objects, ArrayList<Tank> neutrals, ArrayList<Player> players, ArrayList<Robot> robots) {
+    public int moveTank(ArrayList<Rectangle> blocks, ArrayList<GameObject> objects, ArrayList<Tank> neutrals, ArrayList<Tank> tanks) {
         temp++;
         if (temp>4000)
             temp=0;
@@ -32,16 +32,16 @@ public class Robot_Minim implements Robot {
             if(e.getPosX()==tank.getPosX())
             {
                 if(e.getPosY()>tank.getPosY())
-                    return 6;
+                    return 9;//dol
                 else
-                    return 7;
+                    return 8;//gora
             }
             else if (e.getPosY()==tank.getPosY())
             {
                 if(e.getPosX()>tank.getPosX())
-                    return 8;
+                    return 6;//prawo
                 else
-                    return 9;
+                    return 7;//lewo
             }
         }
         

@@ -201,7 +201,7 @@ public class BattleCityPUT extends BasicGame
 
                 for(Robot robot: robots)
                 {
-                    int action=robot.moveTank(terrain.get_blocks(),objects,neutrals,players,robots);
+                    int action=robot.moveTank(terrain.get_blocks(),objects,neutrals,tanks);
                     Tank tank=robot.get_tank();
                     if(action % 5==1)
                     {
