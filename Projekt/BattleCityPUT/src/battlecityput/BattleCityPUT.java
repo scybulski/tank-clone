@@ -326,10 +326,11 @@ public class BattleCityPUT extends BasicGame
                 }
 
                 // kolizje(tylko dla pociskow)
+                ArrayList toRemove = new ArrayList();
                 for(Iterator<GameObject> iterator = objects.iterator(); iterator.hasNext(); )
                 {
                     GameObject obj = iterator.next();
-
+                    
                     if(terrain.checkCollision(obj.getHitBox()) || 
                             obj.getHitBox().getX() >= margin+416 ||
                             obj.getHitBox().getX() <= margin ||
@@ -337,10 +338,23 @@ public class BattleCityPUT extends BasicGame
                             obj.getHitBox().getY() <= margin)
                     {
                         obj.handleCollision();
-                        iterator.remove();
+                        toRemove.add(obj);
+                        //iterator.remove();
                         continue;
                     }
-
+                    else
+                    for(Iterator<GameObject> iterator2 = objects.iterator(); iterator2.hasNext();)
+                    {
+                        GameObject obj2 = iterator2.next();
+                        
+                        if((obj != obj2 ) && (obj.getHitBox().intersects(obj2.getHitBox())))
+                        {
+                            obj.handleCollision();
+                            obj2.handleCollision();
+                            toRemove.add(obj);
+                            toRemove.add(obj2);
+                        }
+                    }
                     // kolizja z neutralami
                     boolean collides = false;
                     for(Iterator<Tank> neutralIterator = neutrals.iterator(); neutralIterator.hasNext();)
@@ -404,8 +418,10 @@ public class BattleCityPUT extends BasicGame
                     }
 
                     // porusza tylko pociski
-                    if(!collides)  obj.move(delta);
+                    if(!collides)
+                        obj.move(delta);
                 }
+                objects.removeAll(toRemove);
 
 
                 if((isPlayerMoving > 0) && !gameOver)
