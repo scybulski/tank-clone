@@ -13,4 +13,8 @@ public abstract class GameObject
     public abstract void handleCollision();
     
     public abstract void move(float delta);
+
+    Tank getParentTank() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 } 

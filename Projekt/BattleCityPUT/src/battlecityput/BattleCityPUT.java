@@ -349,7 +349,10 @@ public class BattleCityPUT extends BasicGame
 
                         if(obj.collides(neutral))
                         {
-                           neutral.decreaseLives();
+                            if(obj.getParentTank() == tank)
+                            {
+                               neutral.decreaseLives();                                
+                            }
                             if(neutral.getLives() <= 0)
                             {
                                 //usuniecie czolgu
