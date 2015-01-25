@@ -22,9 +22,8 @@ class Counters {
     private ArrayList<Rectangle> russianTanks;
 
     private Rectangle chooser;
-    private Image countersFrame, russianTankIndicator, stageText, gameover,
+    private Image countersFrame, russianTankIndicator, stageText, gameover, winnerTxt, drawTxt,
             num_bg[], num_wb[], num_ob[];
-
 
     public static int TILESIZE;
     
@@ -37,6 +36,8 @@ class Counters {
         russianTankIndicator = new Image("surowce/russiantankindicator.png");
         stageText = new Image("surowce/stage.png");
         gameover = new Image("surowce/gameoversummary.png");
+        winnerTxt = new Image("surowce/winner.png");
+        drawTxt = new Image("surowce/draw.png");
         
         num_bg = new Image[10];
         num_wb = new Image[10];
@@ -258,6 +259,8 @@ class Counters {
     public void drawGameOver()
     {
         gameover.draw();
+        points1P = russianDestroyed1P*100+opponentDestroyed1P*500;
+        points2P = russianDestroyed2P*100+opponentDestroyed2P*500;
         showNumber_whiteblack(russianDestroyed1P, 224,176);
         showNumber_whiteblack(russianDestroyed1P*100, 112,176);
         showNumber_whiteblack(russianDestroyed2P, 320,176);
@@ -267,7 +270,26 @@ class Counters {
         showNumber_whiteblack(opponentDestroyed2P, 320,224);
         showNumber_whiteblack(opponentDestroyed2P*500, 400,224);
         showNumber_whiteblack(opponentDestroyed1P+russianDestroyed1P,224,256);
-        showNumber_orangeblack(russianDestroyed1P*100+opponentDestroyed1P*500,175,128);
-        showNumber_orangeblack(russianDestroyed2P*100+opponentDestroyed2P*500,464,128);
+        showNumber_orangeblack(points1P,175,128);
+        showNumber_orangeblack(points2P,464,128);
+        if((lives1P == 0 && lives2P == 0) || (lives1P != 0 && lives2P != 0))
+        {
+            if(points1P == points2P)
+            {
+                drawTxt.draw((gameover.getWidth()-drawTxt.getWidth())/2, 300);
+            }
+            else if(points1P > points2P)
+            {
+                winnerTxt.draw(175-winnerTxt.getWidth(), 300);
+            }
+            else
+            {
+                winnerTxt.draw(464-winnerTxt.getWidth(), 300);
+            }
+        }
+        else if(lives1P == 0)
+            winnerTxt.draw(464-winnerTxt.getWidth(), 300);
+        else
+            winnerTxt.draw(175-winnerTxt.getWidth(), 300);
     }
 }
