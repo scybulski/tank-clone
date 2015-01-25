@@ -120,7 +120,7 @@ public class Bullet extends GameObject
     {
         if(isexplosion)
         {
-            System.out.println("DRAW COLLISION");
+            //System.out.println("DRAW COLLISION");
             if(explosionFrame < 10) // crash dla wartosci wiekszych od 10
             {
                 explosion[explosionFrame/5].draw((int)posX - 35, (int)posY - 35);

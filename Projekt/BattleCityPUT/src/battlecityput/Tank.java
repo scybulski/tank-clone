@@ -129,7 +129,7 @@ public class Tank extends GameObject
         if(!bulletFired)
         {
             BattleCityPUT.addObject(new Bullet(this));
-            shootCoolDown = 300 + randomFire;
+            shootCoolDown = 100 + randomFire;
             if(doPlayShotSound)
                 shotsound.play();
             return true;
@@ -160,6 +160,11 @@ public class Tank extends GameObject
             sprite2.draw((int)posX, (int)posY);
         
         return true;
+    }
+    
+    public void drawImmune()
+    {
+        //TODO
     }
     
     public Bullet.Direction getDirection()

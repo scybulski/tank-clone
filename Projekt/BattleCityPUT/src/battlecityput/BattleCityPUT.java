@@ -41,15 +41,16 @@ public class BattleCityPUT extends BasicGame
     
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground, grayforeground;
-    private Music startmusic;
-    private boolean playerenginesoundplaying,russiantanksoundplaying, levelchooser;
-    private int isPlayerMoving;
+    private Music startmusic, endmusic;
+    private boolean playerenginesoundplaying, levelchooser;//,russiantanksoundplaying
+    private int isPlayerMoving, tank1PTillRespawn, tank2PTillRespawn;
     private long lasttimetanksspawned;
     
     public final static Integer margin = 32;
     private Clip startmusicclip;
     private AudioInputStream inputStream;
-    private AudioClip playerenginesound, russianenginesound;
+    private AudioClip playerenginesound;//, russianenginesound;
+    Random posGenerator = new Random();
     
     int randomX;
     int randomY;
@@ -97,7 +98,7 @@ public class BattleCityPUT extends BasicGame
         URL url;
         try {
             playerenginesound = Applet.newAudioClip(new URL("file:surowce/playerengine.wav"));
-            russianenginesound = Applet.newAudioClip(new URL("file:surowce/russiantank.wav"));
+            //russianenginesound = Applet.newAudioClip(new URL("file:surowce/russiantank.wav"));
 
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
@@ -204,11 +205,10 @@ public class BattleCityPUT extends BasicGame
                 }
 
                 // NEUTRALE
-                if(ai.getCurrent() < 8 && counters.getRussianTanksLeft() > 0 && System.currentTimeMillis() > lasttimetanksspawned + 5432)
+                if(ai.getCurrent() < 8 && counters.getRussianTanksLeft() > 0 && System.currentTimeMillis() > lasttimetanksspawned + 3579)
                 {
                     do
                     {
-                        Random posGenerator = new Random();
                         randomX = posGenerator.nextInt(353) + margin;
                         randomY = posGenerator.nextInt(353) + margin;
                         if(!terrain.checkCollision(new Rectangle(randomX, randomY, 32, 32)))
@@ -224,11 +224,11 @@ public class BattleCityPUT extends BasicGame
                         collision = 0;
                     }
                     while(!canSpawn);
-                    if((!russiantanksoundplaying) && !(startmusic.playing()))
+/*                    if((!russiantanksoundplaying) && !(startmusic.playing()))
                     {
                         russianenginesound.loop();
                         russiantanksoundplaying = true;
-                    }
+                    }*/
                     try
                     {
                         ai.spawn(randomX, randomY);
@@ -242,11 +242,11 @@ public class BattleCityPUT extends BasicGame
                     counters.tankSpawned();
                     lasttimetanksspawned = System.currentTimeMillis();
                 }
-                else if(ai.getCurrent() == 0)
-                {
-                    russianenginesound.stop();
-                    russiantanksoundplaying = false;
-                }
+//                else if(ai.getCurrent() == 0)
+  //              {
+    //                russianenginesound.stop();
+     //               russiantanksoundplaying = false;
+      //          }
 
 
                 for(Tank t : neutrals)
@@ -364,13 +364,24 @@ public class BattleCityPUT extends BasicGame
                         }
                     }
 
-                    if(!collides)
+                    if(!collides && tank1PTillRespawn < 1)
                     {
                         for(Iterator<Tank> playerIterator = players.iterator(); playerIterator.hasNext(); )
                         {
                             Tank playerTank = playerIterator.next();
                             if(obj.collides(playerTank))
                             {
+                                tank1PTillRespawn = 400;
+                                System.out.println("Took life 1P");
+          //                      do
+//                                {
+  //                                  randomX = posGenerator.nextInt(353) + margin;
+    //                                randomY = posGenerator.nextInt(353) + margin;
+      //                          }
+        //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))); collision ++;
+                                tank.setPosX(randomX);
+                                tank.setPosY(randomY);
+
                                 //playerTank.decreaseLives();
                                 // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
                                 if(counters.takeLive1P() == 0)  //(playerTank.getLives() <= 0)
@@ -394,7 +405,7 @@ public class BattleCityPUT extends BasicGame
                 }
 
 
-                if((isPlayerMoving > 0))
+                if((isPlayerMoving > 0) && !gameOver)
                 {
                     if(!playerenginesoundplaying && (!startmusic.playing()))
                     {
@@ -414,7 +425,9 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException
     {
-        
+        if(tank1PTillRespawn > 0)
+            tank1PTillRespawn--;
+        tank.drawImmune();
         g.setBackground(org.newdawn.slick.Color.decode("#636363"));  //need2use Color from slick library
         if(levelchooser)
         {
