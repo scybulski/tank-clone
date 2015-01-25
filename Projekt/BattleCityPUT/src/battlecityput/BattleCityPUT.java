@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
+//import javafx.scene.paint.Color;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Level;
@@ -36,7 +36,8 @@ public class BattleCityPUT extends BasicGame
     private Ai ai;
     private static ArrayList<GameObject> objects;
     private static ArrayList<Tank> neutrals;
-    private static ArrayList<Tank> players;
+    private static ArrayList<Player> players;
+    private static ArrayList<Robot> robots;
     private static boolean gameOver = false;
     
     private Counters counters;
@@ -108,10 +109,20 @@ public class BattleCityPUT extends BasicGame
         // lista obiektow do sprawdzania kolizji
         objects = new ArrayList<>();
         neutrals = new ArrayList<>();
-        // lista czolgow graczy
-        players = new ArrayList<>();
-        players.add(tank1P);
-        players.add(tank2P);
+        
+        try {
+            // lista czolgow graczy
+            players = new ArrayList<>();
+            players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
+            players.add(new Player(2,Input.KEY_D,Input.KEY_A,Input.KEY_W,Input.KEY_S,Input.KEY_SPACE));
+            
+            // lista czolgow zawansowanych AI - Robot
+            robots = new ArrayList<>();
+            //robots.add(new Robot_Minim(new Tank(3)));
+            //robots.add(new Robot_Minim(new Tank(4)));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         counters = new Counters();
         counters.startGame();
@@ -156,106 +167,79 @@ public class BattleCityPUT extends BasicGame
             }
             else
             {
-                if(input.isKeyDown(Input.KEY_RIGHT))
+                for(Player tank: players)
                 {
-                    tank1P.rotate(0);
-                    if(!terrain.checkCollision(tank1P.getRect(delta, 0)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(2*delta, 0)))
+                    if(input.isKeyDown(tank.get_r()))
                     {
-                        //tank.setDirection(1);
-                        tank1P.changePosX(delta);
+                        m_right(tank,delta);
                     }
-                    isPlayerMoving = 11;
-                }
-                else if(input.isKeyDown(Input.KEY_LEFT))
-                {
-                    tank1P.rotate(180);
-                    if(!terrain.checkCollision(tank1P.getRect(-delta, 0)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(-2*delta, 0)))
+                    else if(input.isKeyDown(tank.get_l()))
                     {
-                        tank1P.changePosX(-delta);
+                        m_left(tank,delta);
                     }
-                    isPlayerMoving = 11;
-                }
-                else if(input.isKeyDown(Input.KEY_UP))
-                {
-                    tank1P.rotate(270);
-                    if(!terrain.checkCollision(tank1P.getRect(0, -delta)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(0, -2*delta)))
+                    else if(input.isKeyDown(tank.get_u()))
                     {
-                        tank1P.changePosY(-delta);
+                        m_up(tank,delta);
                     }
-                    isPlayerMoving = 11;
-                }
-                else if(input.isKeyDown(Input.KEY_DOWN))
-                {
-                    tank1P.rotate(90);
-                    if(!terrain.checkCollision(tank1P.getRect(0, delta)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(0, 2*delta)))
+                    else if(input.isKeyDown(tank.get_d()))
                     {
-                        tank1P.changePosY(delta);
+                        m_down(tank,delta);
                     }
-                    isPlayerMoving = 11;
-                }
-                else
-                    isPlayerMoving--;
+                    else
+                        isPlayerMoving--;
 
-                if(input.isKeyPressed(Input.KEY_RCONTROL)) 
-                {
-                    //tank.shoot(0);
-                    tank1P.shoot(0, !startmusic.playing());
+                    if(input.isKeyPressed(tank.get_s())) 
+                    {
+                        shoot(tank);
+                    }
                 }
 
-//PLAYER 2
-                
-                if(input.isKeyDown(Input.KEY_D))
-                {
-                    tank2P.rotate(0);
-                    if(!terrain.checkCollision(tank2P.getRect(delta, 0)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(2*delta, 0)))
-                    {
-                        //tank.setDirection(1);
-                        tank2P.changePosX(delta);
-                    }
-                    isPlayerMoving = 11;
-                }
-                else if(input.isKeyDown(Input.KEY_A))
-                {
-                    tank2P.rotate(180);
-                    if(!terrain.checkCollision(tank2P.getRect(-delta, 0)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(-2*delta, 0)))
-                    {
-                        tank2P.changePosX(-delta);
-                    }
-                    isPlayerMoving = 11;
-                }
-                else if(input.isKeyDown(Input.KEY_W))
-                {
-                    tank2P.rotate(270);
-                    if(!terrain.checkCollision(tank2P.getRect(0, -delta)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(0, -2*delta)))
-                    {
-                        tank2P.changePosY(-delta);
-                    }
-                    isPlayerMoving = 11;
-                }
-                else if(input.isKeyDown(Input.KEY_S))
-                {
-                    tank2P.rotate(90);
-                    if(!terrain.checkCollision(tank2P.getRect(0, delta)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(0, 2*delta)))
-                    {
-                        tank2P.changePosY(delta);
-                    }
-                    isPlayerMoving = 11;
-                }
-                else
-                    isPlayerMoving--;
+                ArrayList<Rectangle> obje;
+                obje=new ArrayList<>();
+                for(GameObject o:objects)
+                    obje.add(o.getHitBox());
 
-                if(input.isKeyPressed(Input.KEY_F)) 
+                ArrayList<Rectangle> neut;
+                neut=new ArrayList<>();
+                for(Tank t:neutrals)
+                    neut.add(t.getHitBox());
+
+                ArrayList<Rectangle> enem;
+                enem=new ArrayList<>();
+                for(Tank t:players)
+                    enem.add(t.getHitBox());
+
+                for(Robot r:robots)
+                    enem.add(r.get_tank().getHitBox());
+
+
+                for(Robot robot: robots)
                 {
-                    //tank.shoot(0);
-                    tank2P.shoot(0, !startmusic.playing());
+                    int action=robot.moveTank(terrain.get_blocks(),obje,neut,enem);
+                    Tank tank=robot.get_tank();
+                    if(action % 5==1)
+                    {
+                        m_right(tank,delta);
+                    }
+                    else if(action % 5==2)
+                    {
+                        m_left(tank,delta);
+                    }
+                    else if(action % 5==3)
+                    {
+                        m_up(tank,delta);
+                    }
+                    else if(action % 5==4)
+                    {
+                        m_down(tank,delta);
+                    }
+                    else
+                        isPlayerMoving--;
+
+                    if(action>4) 
+                    {
+                        shoot(tank);
+                    }
                 }
 
                 
@@ -441,7 +425,7 @@ public class BattleCityPUT extends BasicGame
 
                     if(!collides && tank1PTillRespawn < 1)
                     {
-                        for(Iterator<Tank> playerIterator = players.iterator(); playerIterator.hasNext(); )
+                        for(Iterator<Player> playerIterator = players.iterator(); playerIterator.hasNext(); )
                         {
                             Tank playerTank = playerIterator.next();
                             if(obj.collides(playerTank))
@@ -499,6 +483,56 @@ public class BattleCityPUT extends BasicGame
         }
     }
     
+    public void shoot(Tank tank) throws SlickException
+    {
+        tank.shoot(0, !startmusic.playing());
+    }
+    
+    public void m_right(Tank tank, int delta)
+    {
+        tank.rotate(0);
+        if(!terrain.checkCollision(tank.getRect(delta, 0)) &&
+                !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(delta, 0)))
+        {
+            //tank.setDirection(1);
+            tank.changePosX(delta);
+        }
+        isPlayerMoving = 11;
+    }
+    
+    public void m_left(Tank tank, int delta)
+    {
+        tank.rotate(180);
+        if(!terrain.checkCollision(tank.getRect(-delta, 0)) &&
+                !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(-delta, 0)))
+        {
+            tank.changePosX(-delta);
+        }
+        isPlayerMoving = 11;
+    }
+    
+    public void m_up(Tank tank, int delta)
+    {
+        tank.rotate(270);
+        if(!terrain.checkCollision(tank.getRect(0, -delta)) &&
+                !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(0, -delta)))
+        {
+            tank.changePosY(-delta);
+        }
+        isPlayerMoving = 11;
+    }
+    
+    public void m_down(Tank tank, int delta)
+    {
+        tank.rotate(90);
+        if(!terrain.checkCollision(tank.getRect(0, delta)) &&
+                !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(0, delta)))
+        {
+            tank.changePosY(delta);
+        }
+        isPlayerMoving = 11;
+    }
+    
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException
     {
@@ -512,10 +546,14 @@ public class BattleCityPUT extends BasicGame
             g.fill(battlefieldbackground);
                 g.setColor(org.newdawn.slick.Color.black);
 
-            //tank.draw();
-            for(Tank p : players)
+            for(Player t: players)
             {
-                p.draw();
+                t.draw();
+            }
+            
+            for(Robot robot:robots)            
+            {
+                robot.get_tank().draw();
             }
             
             for(Tank t : neutrals)
@@ -576,7 +614,16 @@ public class BattleCityPUT extends BasicGame
                 }
         }
         
-        for(Iterator<Tank> iterator = players.iterator(); iterator.hasNext();)
+        for(Robot robot:robots) 
+        {            
+            if(!t.equals(robot.get_tank()))
+                if(tankRect.intersects(robot.get_tank().getHitBox()))
+                {
+                    return true;
+                }
+        }
+        
+        for(Iterator<Player> iterator = players.iterator(); iterator.hasNext();)
         {
             Tank playerTank = iterator.next();
             
