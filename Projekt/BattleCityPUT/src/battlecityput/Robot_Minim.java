@@ -22,23 +22,23 @@ public class Robot_Minim implements Robot {
     }
 
     @Override
-    public int moveTank(ArrayList<Rectangle> blocks, ArrayList<Rectangle> obj, ArrayList<Rectangle> neut, ArrayList<Rectangle> enem) {
+    public int moveTank(ArrayList<Rectangle> blocks, ArrayList<GameObject> objects, ArrayList<Tank> neutrals, ArrayList<Player> players, ArrayList<Robot> robots) {
         temp++;
         if (temp>4000)
             temp=0;
         
-        for (Rectangle e:enem)
+        for (Tank e : neutrals)
         {
-            if(e.x==tank.getPosX())
+            if(e.getPosX()==tank.getPosX())
             {
-                if(e.y>tank.getPosY())
+                if(e.getPosY()>tank.getPosY())
                     return 6;
                 else
                     return 7;
             }
-            else if (e.y==tank.getPosY())
+            else if (e.getPosY()==tank.getPosY())
             {
-                if(e.x>tank.getPosX())
+                if(e.getPosX()>tank.getPosX())
                     return 8;
                 else
                     return 9;
@@ -55,5 +55,5 @@ public class Robot_Minim implements Robot {
         else
             return 4;     
     }
-    
+
 }

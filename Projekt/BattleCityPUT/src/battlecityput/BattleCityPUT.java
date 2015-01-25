@@ -114,12 +114,12 @@ public class BattleCityPUT extends BasicGame
             // lista czolgow graczy
             players = new ArrayList<>();
             players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
-            players.add(new Player(2,Input.KEY_D,Input.KEY_A,Input.KEY_W,Input.KEY_S,Input.KEY_SPACE));
+            //players.add(new Player(2,Input.KEY_D,Input.KEY_A,Input.KEY_W,Input.KEY_S,Input.KEY_SPACE));
             
             // lista czolgow zawansowanych AI - Robot
             robots = new ArrayList<>();
-            //robots.add(new Robot_Minim(new Tank(3)));
-            //robots.add(new Robot_Minim(new Tank(4)));
+            //robots.add(new Robot_Minim(new Tank(1)));
+            robots.add(new Robot_Minim(new Tank(2)));
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -194,28 +194,10 @@ public class BattleCityPUT extends BasicGame
                     }
                 }
 
-                ArrayList<Rectangle> obje;
-                obje=new ArrayList<>();
-                for(GameObject o:objects)
-                    obje.add(o.getHitBox());
-
-                ArrayList<Rectangle> neut;
-                neut=new ArrayList<>();
-                for(Tank t:neutrals)
-                    neut.add(t.getHitBox());
-
-                ArrayList<Rectangle> enem;
-                enem=new ArrayList<>();
-                for(Tank t:players)
-                    enem.add(t.getHitBox());
-
-                for(Robot r:robots)
-                    enem.add(r.get_tank().getHitBox());
-
 
                 for(Robot robot: robots)
                 {
-                    int action=robot.moveTank(terrain.get_blocks(),obje,neut,enem);
+                    int action=robot.moveTank(terrain.get_blocks(),objects,neutrals,players,robots);
                     Tank tank=robot.get_tank();
                     if(action % 5==1)
                     {
