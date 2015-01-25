@@ -17,6 +17,7 @@ public class Tank extends GameObject
     private float posX, posY;
     private final float vel;
     private Bullet.Direction direction;
+    private boolean isNeutral;
     private int ID;
     private int lives;
     private float moveCoolDown;
@@ -30,6 +31,7 @@ public class Tank extends GameObject
     
     public Tank(int player) throws SlickException, MalformedURLException
     {
+        isNeutral = false;
         ID = player;
         if (player==1){
             posX = 64f;
@@ -67,6 +69,7 @@ public class Tank extends GameObject
     //konstruktor dla neutralnych czolgow
     public Tank(float posX, float posY) throws SlickException, MalformedURLException
     {
+        isNeutral = true;
         ID = 0;
         this.posX = posX;
         this.posY = posY;
@@ -264,6 +267,11 @@ public class Tank extends GameObject
     public float getPosY()
     {
         return posY;
+    }
+    
+    public boolean getIsNeutral()
+    {
+        return isNeutral;
     }
     
     public boolean getIsDestroyed()

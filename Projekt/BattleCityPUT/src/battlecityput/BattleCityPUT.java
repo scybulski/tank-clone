@@ -397,7 +397,8 @@ public class BattleCityPUT extends BasicGame
 
                         if(obj.collides(neutral))
                         {
-                            if((obj.getParentTank() == tank1P) || (obj.getParentTank() == tank2P))
+                            //if((obj.getParentTank().equals(tank1P)) || (obj.getParentTank().equals(tank2P)))
+                            if(!obj.getParentTank().getIsNeutral())
                             {
                                neutral.decreaseLives();                                
                             }
