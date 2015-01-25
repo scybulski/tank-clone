@@ -224,11 +224,6 @@ public class BattleCityPUT extends BasicGame
                         collision = 0;
                     }
                     while(!canSpawn);
-/*                    if((!russiantanksoundplaying) && !(startmusic.playing()))
-                    {
-                        russianenginesound.loop();
-                        russiantanksoundplaying = true;
-                    }*/
                     try
                     {
                         ai.spawn(randomX, randomY);
@@ -371,6 +366,11 @@ public class BattleCityPUT extends BasicGame
                             {
                                 //usuniecie czolgu
                                 neutralIterator.remove();
+                                ai.removeCurrent();
+                                if((ai.getCurrent() == 0) && counters.getRussianTanksLeft() == 0)
+                                {
+                                    gameOver = true;
+                                }
                             }
 
                             // ROZROZNIANIE PLAYEROW(jedna metoda do wszystkich by styknela)
