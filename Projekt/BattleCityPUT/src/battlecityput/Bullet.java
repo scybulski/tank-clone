@@ -71,6 +71,13 @@ public class Bullet extends GameObject
         pos.y = (int)posY;
     }
     
+    
+    public Tank getParentTank()
+    {
+        return parentTank;
+    }
+    
+    
     public Rectangle getRect(float delta)
     {
         pos.x = (int)(posX + delta*velX);
@@ -80,9 +87,9 @@ public class Bullet extends GameObject
     }
     
     @Override
-    public boolean collides(Rectangle rect)
+    public boolean collides(Tank t)
     {
-        return pos.intersects(rect);
+        return pos.intersects(t.getHitBox()) && !parentTank.equals(t);
     }
     
     @Override
@@ -109,18 +116,24 @@ public class Bullet extends GameObject
     }
     
     @Override
-    public void draw()
+    public boolean draw()
     {
         if(isexplosion)
         {
             System.out.println("DRAW COLLISION");
-            if(explosionFrame < 10)
+            if(explosionFrame < 10) // crash dla wartosci wiekszych od 10
             {
                 explosion[explosionFrame/5].draw((int)posX - 35, (int)posY - 35);
                 explosionFrame++;
             }
+            else
+            {
+                return false;
+            }
         }
         else
             sprite.draw((int)posX, (int)posY);
+        
+        return true;
     }
 }

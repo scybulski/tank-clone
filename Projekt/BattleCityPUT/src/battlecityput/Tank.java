@@ -34,7 +34,7 @@ public class Tank extends GameObject
         posY = 64f;
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
-        lives = 3;
+        lives = 1;
         bulletFired = false;
         sprite1 = new Image("surowce/tankI.png");  //player I
         sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
@@ -69,7 +69,7 @@ public class Tank extends GameObject
     }
     
     @Override
-    public boolean collides(Rectangle rect)
+    public boolean collides(Tank t)
     {
         return true;
     }
@@ -152,12 +152,14 @@ public class Tank extends GameObject
 
     
     @Override
-    public void draw()
+    public boolean draw()
     {
         if(frame)        
             sprite1.draw((int)posX, (int)posY);
         else
             sprite2.draw((int)posX, (int)posY);
+        
+        return true;
     }
     
     public Bullet.Direction getDirection()

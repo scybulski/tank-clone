@@ -4,9 +4,9 @@ import java.awt.Rectangle;
 
 public abstract class GameObject
 {
-    public abstract boolean collides(Rectangle rect);
+    public abstract boolean collides(Tank t);
     
-    public abstract void draw();
+    public abstract boolean draw();
     
     public abstract Rectangle getHitBox();
     

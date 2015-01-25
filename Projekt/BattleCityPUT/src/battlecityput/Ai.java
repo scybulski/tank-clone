@@ -1,5 +1,6 @@
 package battlecityput;
 
+import java.net.MalformedURLException;
 import org.newdawn.slick.SlickException;
 
 public class Ai {
@@ -38,7 +39,7 @@ public class Ai {
         return current;
     }
     
-    public void spawn(int randomX, int randomY) throws SlickException
+    public void spawn(int randomX, int randomY) throws SlickException, MalformedURLException
     {
         BattleCityPUT.addNeutralTank(new Tank(randomX,randomY));
         spawned ++;  
