@@ -365,6 +365,11 @@ public class BattleCityPUT extends BasicGame
                             if(neutral.getLives() <= 0)
                             {
                                 //usuniecie czolgu
+                                if(!neutral.getIsDestroyed())
+                                {
+                                    neutral.setIsDestroyed(true);
+                                    counters.update1PDestroyedRussian();
+                                }
                                 neutralIterator.remove();
                                 ai.removeCurrent();
                                 if((ai.getCurrent() == 0) && counters.getRussianTanksLeft() == 0)
@@ -372,9 +377,7 @@ public class BattleCityPUT extends BasicGame
                                     gameOver = true;
                                 }
                             }
-
                             // ROZROZNIANIE PLAYEROW(jedna metoda do wszystkich by styknela)
-                            counters.update1PDestroyedRussian();
                             obj.handleCollision();
                             collides = true;
                             break;

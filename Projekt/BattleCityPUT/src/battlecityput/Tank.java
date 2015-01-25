@@ -23,6 +23,7 @@ public class Tank extends GameObject
     private int randomMove;
     private boolean frame;
     private boolean bulletFired;
+    private boolean isDestroyed;
     public float shootCoolDown;
     private AudioClip shotsound;
     
@@ -226,7 +227,17 @@ public class Tank extends GameObject
     {
         return posY;
     }
-            
+    
+    public boolean getIsDestroyed()
+    {
+        return isDestroyed;
+    }
+    
+    public void setIsDestroyed(boolean Is)
+    {
+        isDestroyed = Is;
+    }
+    
     public void changePosX(float dv)
     {
         if((posX + dv*vel >= 32) && (posX+dv*vel <= 416))
