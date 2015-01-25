@@ -28,17 +28,27 @@ public class Tank extends GameObject
     private AudioClip shotsound;
     
     
-    public Tank() throws SlickException, MalformedURLException
+    public Tank(int player) throws SlickException, MalformedURLException
     {
-        ID = 1;
-        posX = 64f;
-        posY = 64f;
+        ID = player;
+        if(player == 1)
+        {
+            posX = 64f;
+            posY = 64f;
+            sprite1 = new Image("surowce/tankI.png");  //player I
+            sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
+        }
+        else
+        {
+            posX = 384f;
+            posY = 64f;
+            sprite1 = new Image("surowce/tankI.png");  //player I
+            sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
+        }
         vel = 0.1f;
         direction = Bullet.Direction.RIGHT;
         lives = 1;
         bulletFired = false;
-        sprite1 = new Image("surowce/tankI.png");  //player I
-        sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
         this.loadCommonResources();
         pos = new Rectangle((int)posX, (int)posY, 32, 32);
     }

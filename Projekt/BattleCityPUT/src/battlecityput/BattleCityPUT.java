@@ -32,7 +32,7 @@ import org.newdawn.slick.geom.Shape;
 public class BattleCityPUT extends BasicGame
 {
     private Terrain terrain;
-    private Tank tank;
+    private Tank tank1P, tank2P;
     private Ai ai;
     private static ArrayList<GameObject> objects;
     private static ArrayList<Tank> neutrals;
@@ -84,7 +84,8 @@ public class BattleCityPUT extends BasicGame
         ai = new Ai();
         levelchooser = true; 
         try {
-            tank = new Tank();
+            tank1P = new Tank(1);
+            tank2P = new Tank(2);
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -109,8 +110,9 @@ public class BattleCityPUT extends BasicGame
         neutrals = new ArrayList<>();
         // lista czolgow graczy
         players = new ArrayList<>();
-        players.add(tank);
-                
+        players.add(tank1P);
+        players.add(tank2P);
+        
         counters = new Counters();
         counters.startGame();
 }
@@ -156,54 +158,107 @@ public class BattleCityPUT extends BasicGame
             {
                 if(input.isKeyDown(Input.KEY_RIGHT))
                 {
-                    tank.rotate(0);
-                    if(!terrain.checkCollision(tank.getRect(delta, 0)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(2*delta, 0)))
+                    tank1P.rotate(0);
+                    if(!terrain.checkCollision(tank1P.getRect(delta, 0)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(2*delta, 0)))
                     {
                         //tank.setDirection(1);
-                        tank.changePosX(delta);
+                        tank1P.changePosX(delta);
                     }
                     isPlayerMoving = 11;
                 }
                 else if(input.isKeyDown(Input.KEY_LEFT))
                 {
-                    tank.rotate(180);
-                    if(!terrain.checkCollision(tank.getRect(-delta, 0)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(-2*delta, 0)))
+                    tank1P.rotate(180);
+                    if(!terrain.checkCollision(tank1P.getRect(-delta, 0)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(-2*delta, 0)))
                     {
-                        tank.changePosX(-delta);
+                        tank1P.changePosX(-delta);
                     }
                     isPlayerMoving = 11;
                 }
                 else if(input.isKeyDown(Input.KEY_UP))
                 {
-                    tank.rotate(270);
-                    if(!terrain.checkCollision(tank.getRect(0, -delta)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(0, -2*delta)))
+                    tank1P.rotate(270);
+                    if(!terrain.checkCollision(tank1P.getRect(0, -delta)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(0, -2*delta)))
                     {
-                        tank.changePosY(-delta);
+                        tank1P.changePosY(-delta);
                     }
                     isPlayerMoving = 11;
                 }
                 else if(input.isKeyDown(Input.KEY_DOWN))
                 {
-                    tank.rotate(90);
-                    if(!terrain.checkCollision(tank.getRect(0, delta)) &&
-                            !BattleCityPUT.checkTanksCollisions(tank, tank.getRect(0, 2*delta)))
+                    tank1P.rotate(90);
+                    if(!terrain.checkCollision(tank1P.getRect(0, delta)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank1P, tank1P.getRect(0, 2*delta)))
                     {
-                        tank.changePosY(delta);
+                        tank1P.changePosY(delta);
                     }
                     isPlayerMoving = 11;
                 }
                 else
                     isPlayerMoving--;
 
-                if(input.isKeyPressed(Input.KEY_SPACE)) 
+                if(input.isKeyPressed(Input.KEY_RCONTROL)) 
                 {
                     //tank.shoot(0);
-                    tank.shoot(0, !startmusic.playing());
+                    tank1P.shoot(0, !startmusic.playing());
                 }
 
+//PLAYER 2
+                
+                if(input.isKeyDown(Input.KEY_D))
+                {
+                    tank2P.rotate(0);
+                    if(!terrain.checkCollision(tank2P.getRect(delta, 0)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(2*delta, 0)))
+                    {
+                        //tank.setDirection(1);
+                        tank2P.changePosX(delta);
+                    }
+                    isPlayerMoving = 11;
+                }
+                else if(input.isKeyDown(Input.KEY_A))
+                {
+                    tank2P.rotate(180);
+                    if(!terrain.checkCollision(tank2P.getRect(-delta, 0)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(-2*delta, 0)))
+                    {
+                        tank2P.changePosX(-delta);
+                    }
+                    isPlayerMoving = 11;
+                }
+                else if(input.isKeyDown(Input.KEY_W))
+                {
+                    tank2P.rotate(270);
+                    if(!terrain.checkCollision(tank2P.getRect(0, -delta)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(0, -2*delta)))
+                    {
+                        tank2P.changePosY(-delta);
+                    }
+                    isPlayerMoving = 11;
+                }
+                else if(input.isKeyDown(Input.KEY_S))
+                {
+                    tank2P.rotate(90);
+                    if(!terrain.checkCollision(tank2P.getRect(0, delta)) &&
+                            !BattleCityPUT.checkTanksCollisions(tank2P, tank2P.getRect(0, 2*delta)))
+                    {
+                        tank2P.changePosY(delta);
+                    }
+                    isPlayerMoving = 11;
+                }
+                else
+                    isPlayerMoving--;
+
+                if(input.isKeyPressed(Input.KEY_F)) 
+                {
+                    //tank.shoot(0);
+                    tank2P.shoot(0, !startmusic.playing());
+                }
+
+                
                 // NEUTRALE
                 if(ai.getCurrent() < 8 && counters.getRussianTanksLeft() > 0 && System.currentTimeMillis() > lasttimetanksspawned + 3579)
                 {
@@ -358,7 +413,7 @@ public class BattleCityPUT extends BasicGame
 
                         if(obj.collides(neutral))
                         {
-                            if(obj.getParentTank() == tank)
+                            if((obj.getParentTank() == tank1P) || (obj.getParentTank() == tank2P))
                             {
                                neutral.decreaseLives();                                
                             }
@@ -399,8 +454,8 @@ public class BattleCityPUT extends BasicGame
     //                                randomY = posGenerator.nextInt(353) + margin;
       //                          }
         //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))); collision ++;
-                                tank.setPosX(randomX);
-                                tank.setPosY(randomY);
+                                tank1P.setPosX(randomX);
+                                tank1P.setPosY(randomY);
 
                                 //playerTank.decreaseLives();
                                 // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
@@ -478,8 +533,14 @@ public class BattleCityPUT extends BasicGame
             {
                 System.out.println("DRAW IMMUNE");
                 tank1PTillRespawn--;
-                tank.drawImmune();
-            }       
+                tank1P.drawImmune();
+            }
+            if(tank2PTillRespawn > 0)
+            {
+                System.out.println("DRAW IMMUNE");
+                tank2PTillRespawn--;
+                tank2P.drawImmune();
+            }
             terrain.draw();
             counters.drawCounters();
         }
