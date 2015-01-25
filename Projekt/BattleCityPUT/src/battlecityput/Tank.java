@@ -12,7 +12,7 @@ import org.newdawn.slick.SlickException;
 
 public class Tank extends GameObject
 {
-    private Image sprite1,sprite2;
+    private Image sprite1,sprite2, immune1, immune2;
     private Rectangle pos;
     private float posX, posY;
     private final float vel;
@@ -20,7 +20,7 @@ public class Tank extends GameObject
     private int ID;
     private int lives;
     private float moveCoolDown;
-    private int randomMove;
+    private int randomMove, frameImmune;
     private boolean frame;
     private boolean bulletFired;
     private boolean isDestroyed;
@@ -39,7 +39,7 @@ public class Tank extends GameObject
         bulletFired = false;
         sprite1 = new Image("surowce/tankI.png");  //player I
         sprite2 = new Image("surowce/tankI2.png");  //plaer I frame 2
-        shotsound = Applet.newAudioClip(new URL("file:surowce/shot.wav"));
+        this.loadCommonResources();
         pos = new Rectangle((int)posX, (int)posY, 32, 32);
     }
     
@@ -57,8 +57,15 @@ public class Tank extends GameObject
         direction = Bullet.Direction.DOWN;
         sprite1 = new Image("surowce/neutral_tank.png");
         sprite2 = new Image("surowce/neutral_tank2.png");
-        shotsound = Applet.newAudioClip(new URL("file:surowce/shot.wav"));
+        this.loadCommonResources();
         pos = new Rectangle((int)this.posX, (int)this.posY, 32, 32);
+    }
+    
+    private void loadCommonResources() throws SlickException, MalformedURLException
+    {
+        immune1 = new Image("surowce/immune1.png");
+        immune2 = new Image("surowce/immune2.png");
+        shotsound = Applet.newAudioClip(new URL("file:surowce/shot.wav"));
     }
     
     public Rectangle getRect(float dx, float dy)
@@ -165,7 +172,17 @@ public class Tank extends GameObject
     
     public void drawImmune()
     {
-        //TODO
+        frameImmune++;
+        if(frameImmune < 4)
+        {
+            immune1.draw((int) posX, (int)posY);
+        }
+        else
+        {
+            immune2.draw((int) posX, (int)posY);
+            if(frameImmune > 8)
+                frameImmune = 0;
+        }
     }
     
     public Bullet.Direction getDirection()

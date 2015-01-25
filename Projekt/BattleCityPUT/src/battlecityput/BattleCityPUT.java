@@ -447,9 +447,6 @@ public class BattleCityPUT extends BasicGame
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException
     {
-        if(tank1PTillRespawn > 0)
-            tank1PTillRespawn--;
-        tank.drawImmune();
         g.setBackground(org.newdawn.slick.Color.decode("#636363"));  //need2use Color from slick library
         if(levelchooser)
         {
@@ -477,7 +474,12 @@ public class BattleCityPUT extends BasicGame
                 if(!obj.draw())
                     iter.remove();
             }
-            
+            if(tank1PTillRespawn > 0)
+            {
+                System.out.println("DRAW IMMUNE");
+                tank1PTillRespawn--;
+                tank.drawImmune();
+            }       
             terrain.draw();
             counters.drawCounters();
         }
