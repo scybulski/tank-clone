@@ -38,6 +38,7 @@ public class BattleCityPUT extends BasicGame
     private static ArrayList<Tank> neutrals;
     private static ArrayList<Player> players;
     private static ArrayList<Robot> robots;
+    private static ArrayList<Tank> tanks;
     private static boolean gameOver = false;
     
     private Counters counters;
@@ -84,12 +85,7 @@ public class BattleCityPUT extends BasicGame
         
         ai = new Ai();
         levelchooser = true; 
-        try {
-            tank1P = new Tank(1);
-            tank2P = new Tank(2);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         counters = new Counters();
         lasttimetanksspawned = System.currentTimeMillis();
         
@@ -110,6 +106,8 @@ public class BattleCityPUT extends BasicGame
         objects = new ArrayList<>();
         neutrals = new ArrayList<>();
         
+        
+        
         try {
             // lista czolgow graczy
             players = new ArrayList<>();
@@ -123,6 +121,12 @@ public class BattleCityPUT extends BasicGame
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        tanks = new ArrayList<>();
+        tanks.add(players.get(0));
+        tanks.add(robots.get(0).get_tank());
+        tank1P=players.get(0);
+        tank2P=robots.get(0).get_tank();
         
         counters = new Counters();
         counters.startGame();
@@ -408,6 +412,7 @@ public class BattleCityPUT extends BasicGame
 
                     if(!collides && tank1PTillRespawn < 1)
                     {
+                        /*
                         for(Iterator<Player> playerIterator = players.iterator(); playerIterator.hasNext(); )
                         {
                             Tank playerTank = playerIterator.next();
@@ -439,13 +444,12 @@ public class BattleCityPUT extends BasicGame
                                 collides = true;
                                 break;
                             }
-                        }
+                        }*/
                         
                         //Robot
-                        for(Robot r:robots)
+                        for(Tank t:tanks)
                         {
-                            Tank playerTank = r.get_tank();
-                            if(obj.collides(playerTank))
+                            if(obj.collides(t))
                             {
                                 tank1PTillRespawn = 400;
                                 System.out.println("Took life 1P");
@@ -455,8 +459,8 @@ public class BattleCityPUT extends BasicGame
     //                                randomY = posGenerator.nextInt(353) + margin;
       //                          }
         //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))); collision ++;
-                                tank1P.setPosX(randomX);
-                                tank1P.setPosY(randomY);
+                                t.setPosX(randomX);
+                                t.setPosY(randomY);
 
                                 //playerTank.decreaseLives();
                                 // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
