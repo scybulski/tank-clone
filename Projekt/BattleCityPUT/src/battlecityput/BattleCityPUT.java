@@ -45,7 +45,7 @@ public class BattleCityPUT extends BasicGame
     private org.newdawn.slick.geom.Rectangle battlefieldbackground, grayforeground;
     private Music startmusic, endmusic;
     private boolean playerenginesoundplaying, levelchooser;//,russiantanksoundplaying
-    private int isPlayerMoving, tank1PTillRespawn, tank2PTillRespawn;
+    private int isPlayerMoving, tank1PImmune, tank2PImmune;
     private long lasttimetanksspawned;
     
     public final static Integer margin = 32;
@@ -415,68 +415,15 @@ public class BattleCityPUT extends BasicGame
                         }
                     }
 
-                    if(!collides && tank1PTillRespawn < 1)
+                    if(!collides)
                     {
-                        /*
-                        for(Iterator<Player> playerIterator = players.iterator(); playerIterator.hasNext(); )
-                        {
-                            Tank playerTank = playerIterator.next();
-                            if(obj.collides(playerTank))
-                            {
-                                tank1PTillRespawn = 400;
-                                System.out.println("Took life 1P");
-                                do
-                                {
-                                    randomX = posGenerator.nextInt(353) + margin;
-                                    randomY = posGenerator.nextInt(353) + margin;
-                                }
-                                while(terrain.checkCollision(new Rectangle(randomX, randomY, 32, 32)));
-                                
-                                playerTank.setPosX(randomX);
-                                playerTank.setPosY(randomY);
-
-                                //playerTank.decreaseLives();
-                                // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
-                                if(counters.takeLive1P() == 0)  //(playerTank.getLives() <= 0)
-                                {
-                                    //koniec
-                                    // jakos to zrobic
-                                    if(!obj.getParentTank().getIsNeutral())
-                                        counters.update2PDestroyedOpponent();
-                                    gameOver = true;
-                                }
-                                obj.handleCollision();
-                                toRemove.add(obj);
-                                collides = true;
-                                break;
-                            }
-                        }
-                        
-                        for(Robot r : robots)
-                        {
-                            if(obj.collides(r.getTank()))
-                            {
-                                tank2PTillRespawn = 400;
-                                //dopisac reszte
-                                
-                                if(counters.takeLive2P() == 0)
-                                {
-                                    gameOver = true;
-                                }
-                                obj.handleCollision();
-                                toRemove.add(obj);
-                                collides = true;
-                                break;
-                            }
-                        }*/
-                        
                         //Robot
                         for(Tank t:tanks)
                         {
                             if(obj.collides(t))
                             {
-                                tank1PTillRespawn = 400;
-                                System.out.println("Took life 1P");
+//                                tank1PImmune = 400;
+//                                System.out.println("Took life 1P");
           //                      do
 //                                {
   //                                  randomX = posGenerator.nextInt(353) + margin;
@@ -488,13 +435,27 @@ public class BattleCityPUT extends BasicGame
 
                                 //playerTank.decreaseLives();
                                 // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
-                                if(counters.takeLive1P() == 0)  //(playerTank.getLives() <= 0)
+                                if(t == tank1P)  //(playerTank.getLives() <= 0)
                                 {
                                     //koniec
                                     // jakos to zrobic
 //                                    if(bullet.parentTank C players)
 //                                    counters.update2PDestroyedOpponent();
-                                    gameOver = true;
+                                    tank1PImmune = 400;
+                                    counters.update2PDestroyedOpponent();
+                                     if(counters.takeLive1P() == 0)
+                                     {
+                                        gameOver = true;
+                                     }
+                                }
+                                else if(t == tank2P)
+                                {
+                                    counters.update1PDestroyedOpponent();
+                                    tank2PImmune = 400;
+                                    if(counters.takeLive2P() == 0)
+                                    {
+                                        gameOver = true;
+                                    }
                                 }
                                 obj.handleCollision();
                                 //iterator.remove();
@@ -612,16 +573,16 @@ public class BattleCityPUT extends BasicGame
                 if(!obj.draw())
                     iter.remove();
             }
-            if(tank1PTillRespawn > 0)
+            if(tank1PImmune > 0)
             {
                 System.out.println("DRAW IMMUNE");
-                tank1PTillRespawn--;
+                tank1PImmune--;
                 tank1P.drawImmune();
             }
-            if(tank2PTillRespawn > 0)
+            if(tank2PImmune > 0)
             {
                 System.out.println("DRAW IMMUNE");
-                tank2PTillRespawn--;
+                tank2PImmune--;
                 tank2P.drawImmune();
             }
             terrain.draw();
