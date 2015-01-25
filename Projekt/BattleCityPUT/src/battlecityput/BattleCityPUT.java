@@ -242,6 +242,11 @@ public class BattleCityPUT extends BasicGame
                             {
                                 if(t.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))) collision ++;
                             }
+                            for(Tank t : tanks)
+                            {
+                                
+                                if(t.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))) collision ++;
+                            }
                             if(collision == 0)
                                 canSpawn = true;
                         }
