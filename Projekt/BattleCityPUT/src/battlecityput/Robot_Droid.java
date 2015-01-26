@@ -2,6 +2,7 @@ package battlecityput;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Robot_Droid implements Robot
 {
@@ -9,6 +10,7 @@ public class Robot_Droid implements Robot
     private int moving;
     private int axis;
     private int retVal;
+    private final Random rand = new Random();
     
     Robot_Droid(Tank t)
     {
@@ -49,16 +51,12 @@ public class Robot_Droid implements Robot
                     return 6; // w prawo
                 else if(!checkCollision(blocks, 0, -delta))
                 {
-                    System.out.println("GORA");
-                    moving = 250;
-                    retVal = 8;
+                    setParams(8);
                     return 8; // dol
                 }
                 else if(!checkCollision(blocks, 0, delta))
                 {
-                    System.out.println("DOL");
-                    moving = 250;
-                    retVal = 9;
+                    setParams(9);
                     return 9; // gora
                 }
             }
@@ -68,14 +66,12 @@ public class Robot_Droid implements Robot
                     return 7;
                 else if(!checkCollision(blocks, 0, delta))
                 {
-                    moving = 250;
-                    retVal = 9;
+                    setParams(9);
                     return 9;
                 }
                 else if(!checkCollision(blocks, 0, -delta))
                 {
-                    moving = 250;
-                    retVal = 8;
+                    setParams(8);
                     return 8;
                 }
             }
@@ -88,14 +84,12 @@ public class Robot_Droid implements Robot
                     return 9;
                 else if(!checkCollision(blocks, delta, 0))
                 {
-                    moving = 250;
-                    retVal = 6;
+                    setParams(6);
                     return 6;
                 }
                 else if(!checkCollision(blocks, -delta, 0))
                 {
-                    moving = 250;
-                    retVal = 7;
+                    setParams(7);
                     return 7;
                 }
             }
@@ -105,14 +99,12 @@ public class Robot_Droid implements Robot
                     return 8;
                 else if(!checkCollision(blocks, delta, 0))
                 {
-                    moving = 250;
-                    retVal = 6;
+                    setParams(6);
                     return 6;
                 }
                 else if(!checkCollision(blocks, -delta, 0))
                 {
-                    moving = 250;
-                    retVal = 7;
+                    setParams(7);
                     return 7;
                 }
             }
@@ -137,14 +129,30 @@ public class Robot_Droid implements Robot
     
     private boolean checkCollision(ArrayList<Rectangle> blocks, float dx, float dy)
     {
-        for(Rectangle block : blocks)
-        {
-            if(tank.getRect(dx, dy).intersects(block))
+        Rectangle rect = tank.getRect(dx, dy);
+        if(insideMap(rect.x) && insideMap(rect.y))
+            for(Rectangle block : blocks)
             {
-                return true;
+                if(tank.getRect(dx, dy).intersects(block))
+                {
+                    return true;
+                }
             }
-        }
         return false;
+    }
+    
+    
+    private boolean insideMap(int val)
+    {
+        return (val >= 32 && val <= 416);
+    }
+    
+    
+    private void setParams(int dir)
+    {
+        moving = rand.nextInt(200);
+        moving += 100;
+        retVal = dir;
     }
     
     
