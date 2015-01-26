@@ -30,6 +30,8 @@ class Counters {
     
     public int russianTanksLeft, lives1P, lives2P, level, points1P, points2P,
             russianDestroyed1P, russianDestroyed2P, opponentDestroyed1P, opponentDestroyed2P;
+    private int P1Robot = 0;
+    private int P2Robot = 0;
 
     public Counters() throws SlickException
     {
@@ -183,6 +185,41 @@ class Counters {
         level = newNumber;
     }
     
+    public int getP1Robot()
+    {
+        return P1Robot;
+    }
+    
+    public int getP2Robot()
+    {
+        return P2Robot;
+    }
+    
+    
+    public int upP2Robot()
+    {
+        P2Robot++;
+        return P2Robot;
+    }
+
+    public int upP1Robot()
+    {
+        P1Robot++;
+        return P1Robot;
+    }
+    
+    public int dnP2Robot()
+    {
+        P2Robot--;
+        return P2Robot;
+    }
+
+    public int dnP1Robot()
+    {
+        P1Robot--;
+        return P1Robot;
+    }
+    
     public int getLevelNuber()
     {
         return level;
@@ -258,6 +295,18 @@ class Counters {
     {
         stageText.draw(192, 224);
         showNumber_blackgray(level, 310, 224);
+    }
+    
+    public void drawPlayer1Chooser()
+    {
+        stageText.draw(192, 224);
+        showNumber_blackgray(P1Robot, 310, 224);
+    }
+    
+    public void drawPlayer2Chooser()
+    {
+        stageText.draw(192, 224);
+        showNumber_blackgray(P2Robot, 310, 224);
     }
     
     public void drawGameOver()

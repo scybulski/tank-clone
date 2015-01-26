@@ -61,7 +61,7 @@ public class Robot_Szymon implements Robot {
                 movesQueue.remove(0);
                 return move;
             }
-        if(shootBullet == 20)
+/*        if(shootBullet == 20)
         {
             shootBullet = 0;
             for(GameObject bullet : objects)
@@ -158,7 +158,7 @@ public class Robot_Szymon implements Robot {
             }
         }
         else
-        {
+  */      {
         
             ArrayList<Integer> whichBest;
             ArrayList<ArrayList<Tank>> allTanks;

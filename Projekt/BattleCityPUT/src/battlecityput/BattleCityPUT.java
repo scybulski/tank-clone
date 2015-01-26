@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-//import javafx.scene.paint.Color;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Level;
@@ -44,7 +43,7 @@ public class BattleCityPUT extends BasicGame
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground, grayforeground;
     private Music startmusic, endmusic;
-    private boolean playerenginesoundplaying, levelchooser;//,russiantanksoundplaying
+    private boolean playerenginesoundplaying, levelchooser,playerchooser;//,russiantanksoundplaying
     private int isPlayerMoving, tank1PImmune, tank2PImmune;
     private long lasttimetanksspawned;
     
@@ -85,6 +84,7 @@ public class BattleCityPUT extends BasicGame
         
         ai = new Ai();
         levelchooser = true; 
+        playerchooser = true;
         
         counters = new Counters();
         lasttimetanksspawned = System.currentTimeMillis();
@@ -113,29 +113,27 @@ public class BattleCityPUT extends BasicGame
         try {
             // lista czolgow graczy
             players = new ArrayList<>();
-            //players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
+            players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
             //players.add(new Player(2,Input.KEY_D,Input.KEY_A,Input.KEY_W,Input.KEY_S,Input.KEY_SPACE));
             
             // lista czolgow zawansowanych AI - Robot
             robots = new ArrayList<>();
             //robots.add(new Robot_Droid(new Tank(1)));
-            robots.add(new Robot_Minim(new Tank(0)));
-            //robots.add(new Robot_Szymon(new Tank(1)));
-            robots.add(new Robot_Szymon(new Tank(1)));
+            //robots.add(new Robot_Kamzyc(new Tank(0)));
+            //robots.add(new Robot_Machinated(new Tank(1)));
+            
+            //robots.add(new Robot_Szymon(new Tank(2)));
+            //robots.add(new Robot_Droid(new Tank(1)));
             //robots.add(new Robot_Kamzyc(new Tank(1)));
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         tanks = new ArrayList<>();
-        //tanks.add(players.get(0));
+        tanks.add(players.get(0));
         tanks.add(robots.get(0).get_tank());
-        tanks.add(robots.get(1).get_tank());
         //tanks.add(robots.get(1).get_tank());
-        tank1P=tanks.get(0);
-        //tank1P = robots.get(0).get_tank();
-        //tank2P=robots.get(1).get_tank();
-        tank2P=tanks.get(1);
+        //tanks.add(robots.get(2).get_tank());
         
         counters = new Counters();
         counters.startGame();
@@ -177,6 +175,33 @@ public class BattleCityPUT extends BasicGame
 
                     startmusic.play();
                 }
+            }
+            else if (playerchooser)
+            {
+                if(input.isKeyPressed(Input.KEY_UP))
+                {
+                    counters.upP1Robot();
+                }
+                else if(input.isKeyPressed(Input.KEY_DOWN))
+                {
+                    counters.dnP1Robot();
+                }
+                if(input.isKeyDown(Input.KEY_ENTER))
+                {
+                    playerchooser = false;
+                    
+                    if(counters.getP1Robot()==1)
+                    {
+                        try {
+                            robots.add(new Robot_Szymon(new Tank(2)));
+                        } catch (MalformedURLException ex) {
+                            Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                tank1P=tanks.get(0);
+                tank2P=tanks.get(1);
+        
             }
             else
             {
@@ -441,7 +466,8 @@ public class BattleCityPUT extends BasicGame
   //                                  randomX = posGenerator.nextInt(353) + margin;
     //                                randomY = posGenerator.nextInt(353) + margin;
       //                          }
-        //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))); collision ++;
+        //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32)));
+                                obj.handleCollision();
                                 if(!(t == tank1P && tank1PImmune > 1) &&
                                     !(t == tank2P && tank2PImmune > 1))
                                 {
@@ -451,16 +477,19 @@ public class BattleCityPUT extends BasicGame
                                     {
                                         randomX = posGenerator.nextInt(353) + margin;
                                         randomY = posGenerator.nextInt(353) + margin;
-                                        goodPlace = true;
-                                        t.setPosX(randomX);
-                                        t.setPosY(randomY);
-                                        if((randomX < margin) || (randomX > margin + 416)
-                                                || (randomY < margin) || (randomY > margin + 416))
-                                        {
-                                            goodPlace = false;
-                                        }/*
-                                        else
-                                        for(Rectangle block : terrain.get_blocks())
+                                    }
+                                    while(terrain.checkCollision(new Rectangle(randomX, randomY, 32, 32)));
+                                    t.setPosX(randomX);
+                                    t.setPosY(randomY);
+//                                        if((randomX < margin) || (randomX > margin + 416)
+//                                                || (randomY < margin) || (randomY > margin + 416))
+//                                        {
+//                                            goodPlace = false;
+//                                        }
+//                                    }
+//                                    while(!terrain.checkCollision(t.getRect(0, 0)));/*
+//                                        else
+                                        /*for(Rectangle block : terrain.get_blocks())
                                         {
                                             if(t.getRect(0).intersects(block))
                                             {
@@ -480,8 +509,7 @@ public class BattleCityPUT extends BasicGame
                                                 }
                                             }
                                         }*/
-                                    }
-                                    while(!goodPlace);
+                                    
                                     
                                     if(t == tank1P)  //(playerTank.getLives() <= 0)
                                     {
@@ -504,7 +532,6 @@ public class BattleCityPUT extends BasicGame
                                         }
                                     }
                                 }
-                                obj.handleCollision();
                                 //iterator.remove();
                                 collides = true;
                                 break;

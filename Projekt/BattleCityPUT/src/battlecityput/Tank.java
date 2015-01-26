@@ -163,7 +163,6 @@ public class Tank extends GameObject
     {
         if(!bulletFired)
         {
-            bulletFired = true;
             BattleCityPUT.addObject(new Bullet(this));
             shootCoolDown = 100 + randomFire;
             if(doPlayShotSound)

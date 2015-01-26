@@ -42,14 +42,14 @@ public class Robot_Minim implements Robot {
             return i;
         
         temp++;
-        if (temp>4000)
+        if (temp>400)
             temp=0;
         
-        if (temp>3000)
+        if (temp>300)
             return 1;
-        else if (temp>2000)
+        else if (temp>200)
             return 3;
-        else if (temp>1000)
+        else if (temp>100)
             return 2;
         else
             return 4;     
