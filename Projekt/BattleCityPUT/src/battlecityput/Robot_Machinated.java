@@ -205,7 +205,7 @@ public class Robot_Machinated implements Robot {
     {
         if (weaponCooldown == 0)
         {
-            weaponCooldown = 100;
+            weaponCooldown = 40;
             return true;
         }
         else
