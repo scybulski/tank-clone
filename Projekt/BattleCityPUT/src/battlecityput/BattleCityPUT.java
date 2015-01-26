@@ -172,7 +172,7 @@ public class BattleCityPUT extends BasicGame
                                 robots.add(new Robot_Minim(new Tank(1)));
                             }
                             break;  
-                            case 7:
+                            default :
                             {
                                 players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
                             }
@@ -235,7 +235,7 @@ public class BattleCityPUT extends BasicGame
                                 robots.add(new Robot_Minim(new Tank(2)));
                             }
                             break; 
-                            case 7:
+                            default :
                             {
                                 players.add(new Player(2,Input.KEY_D,Input.KEY_A,Input.KEY_W,Input.KEY_S,Input.KEY_SPACE));
                             }
