@@ -447,7 +447,7 @@ public class BattleCityPUT extends BasicGame
                                     if(t == tank1P)  //(playerTank.getLives() <= 0)
                                     {
                                         tank1PImmune = 400;
-                                        if(obj.parentTank == tank2P)
+                                        if(obj.getParentTank() == tank2P)
                                             counters.update2PDestroyedOpponent();
                                          if(counters.takeLive1P() == 0)
                                          {
@@ -456,7 +456,7 @@ public class BattleCityPUT extends BasicGame
                                     }
                                     else if(t == tank2P)
                                     {
-                                        if(obj.parentTank == tank1P)
+                                        if(obj.getParentTank() == tank1P)
                                             counters.update1PDestroyedOpponent();
                                         tank2PImmune = 400;
                                         if(counters.takeLive2P() == 0)
