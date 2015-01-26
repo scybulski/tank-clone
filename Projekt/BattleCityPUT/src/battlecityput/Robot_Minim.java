@@ -68,12 +68,12 @@ public class Robot_Minim implements Robot {
         {
             d1=abso(o.getHitBox().y-tank.getHitBox().y);
             d2=abso(o.getHitBox().x-tank.getHitBox().x);
-            if(o.getHitBox().x>=tank.getHitBox().x && o.getHitBox().x<=tank.getHitBox().x+32 && d1<dist)
+            if(o.getHitBox().x==tank.getHitBox().x+16 && d1<dist)
             {
                 temp=o;
                 dist=d1;
             }
-            else if (o.getHitBox().y>=tank.getHitBox().y && o.getHitBox().y<=tank.getHitBox().y+32 && d2<dist)
+            else if (o.getHitBox().y==tank.getHitBox().y+16 && d2<dist)
             {
                 temp=o;
                 dist=d2;
