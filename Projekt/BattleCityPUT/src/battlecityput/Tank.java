@@ -178,6 +178,11 @@ public class Tank extends GameObject
         bulletFired = state;
     }
     
+    public boolean getFireState()
+    {
+        return bulletFired;
+    }
+    
     
     @Override
     public void handleCollision()

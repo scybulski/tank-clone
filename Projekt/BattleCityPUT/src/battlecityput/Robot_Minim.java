@@ -26,25 +26,28 @@ public class Robot_Minim implements Robot {
     public int moveTank(ArrayList<Rectangle> blo, ArrayList<GameObject> objects, ArrayList<Tank> neutrals, ArrayList<Tank> tanks, float delta) {
         blocks=blo;
         
-        int i=0;
-        if(!objects.isEmpty())
-            i=bullet(objects);       
-        if (i!=0)
-            return i;
-        
-        i=enemy(tanks);       
-        if (i!=0)
-            return i;
-        
-        if(!neutrals.isEmpty())
-            i=neutral(neutrals);       
-        if (i!=0)
-            return i;
-        
+        if (!tank.getFireState())
+        {
+            int i=0;
+            if(!objects.isEmpty())
+                i=bullet(objects);       
+            if (i!=0)
+                return i;
+
+            i=enemy(tanks);       
+            if (i!=0)
+                return i;
+
+            if(!neutrals.isEmpty())
+                i=neutral(neutrals);       
+            if (i!=0)
+                return i;
+        }
+
         temp++;
         if (temp>400)
             temp=0;
-        
+
         if (temp>300)
             return 1;
         else if (temp>200)
@@ -65,12 +68,12 @@ public class Robot_Minim implements Robot {
         {
             d1=abso(o.getHitBox().y-tank.getHitBox().y);
             d2=abso(o.getHitBox().x-tank.getHitBox().x);
-            if(o.getHitBox().x==tank.getHitBox().x && d1<dist)
+            if(o.getHitBox().x>=tank.getHitBox().x && o.getHitBox().x<=tank.getHitBox().x+32 && d1<dist)
             {
                 temp=o;
                 dist=d1;
             }
-            else if (o.getHitBox().y==tank.getHitBox().y && d2<dist)
+            else if (o.getHitBox().y>=tank.getHitBox().y && o.getHitBox().y<=tank.getHitBox().y+32 && d2<dist)
             {
                 temp=o;
                 dist=d2;
