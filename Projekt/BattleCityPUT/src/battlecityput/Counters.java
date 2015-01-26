@@ -11,7 +11,6 @@ import java.io.File;
 import java.util.ArrayList;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
 
 /**
  *
@@ -23,7 +22,7 @@ class Counters {
 
     private Rectangle chooser;
     private Image countersFrame, russianTankIndicator, stageText, gameover, winnerTxt,
-            drawTxt, livesIndicator,
+            drawTxt, playerTxt, livesIndicator,
             num_bg[], num_wb[], num_ob[], x_ob;
 
     public static int TILESIZE;
@@ -41,6 +40,7 @@ class Counters {
         gameover = new Image("surowce/gameoversummary.png");
         winnerTxt = new Image("surowce/winner.png");
         drawTxt = new Image("surowce/draw.png");
+        playerTxt = new Image("surowce/player.png");
         livesIndicator = new Image("surowce/livesindicator.png");
         x_ob = new Image("surowce/numbers_orange_black/X.png");
         
@@ -306,15 +306,15 @@ class Counters {
     
     public void drawPlayer1Chooser()
     {
-        stageText.draw(192, 224);
-        showNumber_blackgray(1, 100, 224);
+        playerTxt.draw(144, 224);
+        showNumber_blackgray(1, 262, 224);
         showNumber_blackgray(P1Robot, 310, 224);
     }
     
     public void drawPlayer2Chooser()
     {
-        stageText.draw(192, 224);
-        showNumber_blackgray(2, 100, 224);
+        playerTxt.draw(144, 224);
+        showNumber_blackgray(2, 262, 224);
         showNumber_blackgray(P2Robot, 310, 224);
         System.out.println("LevelChooser P1");
     }
