@@ -279,6 +279,7 @@ class Counters {
         showNumber_whiteblack(opponentDestroyed2P, 320,224);
         showNumber_whiteblack(opponentDestroyed2P*500, 400,224);
         showNumber_whiteblack(opponentDestroyed1P+russianDestroyed1P,224,256);
+        showNumber_whiteblack(opponentDestroyed2P+russianDestroyed2P,320,256);
         showNumber_orangeblack(points1P,175,128);
         showNumber_orangeblack(points2P,464,128);
         if((lives1P <= -1 && lives2P <= -1) || (lives1P != -1 && lives2P != -1))

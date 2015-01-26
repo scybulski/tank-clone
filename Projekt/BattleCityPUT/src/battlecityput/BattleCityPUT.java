@@ -113,24 +113,24 @@ public class BattleCityPUT extends BasicGame
         try {
             // lista czolgow graczy
             players = new ArrayList<>();
-            players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
+            //players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
             //players.add(new Player(2,Input.KEY_D,Input.KEY_A,Input.KEY_W,Input.KEY_S,Input.KEY_SPACE));
             
             // lista czolgow zawansowanych AI - Robot
             robots = new ArrayList<>();
             //robots.add(new Robot_Droid(new Tank(1)));
-            //robots.add(new Robot_Minim(new Tank(2)));
+            robots.add(new Robot_Minim(new Tank(0)));
             //robots.add(new Robot_Szymon(new Tank(1)));
-            robots.add(new Robot_Szymon(new Tank(0)));
+            robots.add(new Robot_Szymon(new Tank(1)));
             //robots.add(new Robot_Kamzyc(new Tank(1)));
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         tanks = new ArrayList<>();
-        tanks.add(players.get(0));
+        //tanks.add(players.get(0));
         tanks.add(robots.get(0).get_tank());
-        //tanks.add(robots.get(1).get_tank());
+        tanks.add(robots.get(1).get_tank());
         //tanks.add(robots.get(1).get_tank());
         tank1P=tanks.get(0);
         //tank1P = robots.get(0).get_tank();
