@@ -404,8 +404,10 @@ public class BattleCityPUT extends BasicGame
                                 if(!neutral.getIsDestroyed())
                                 {
                                     neutral.setIsDestroyed(true);
-                                    counters.update1PDestroyedRussian();
-                                    russianExploded.play();
+                                    if (obj.getParentTank() == tank1P)
+                                        counters.update1PDestroyedRussian();
+                                    else if (obj.getParentTank() == tank2P)
+                                        counters.update2PDestroyedRussian();
                                 }
                                 neutralIterator.remove();
                                 ai.removeCurrent();
