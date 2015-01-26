@@ -1,5 +1,9 @@
 package battlecityput;
 
+import static battlecityput.Bullet.Direction.DOWN;
+import static battlecityput.Bullet.Direction.LEFT;
+import static battlecityput.Bullet.Direction.RIGHT;
+import static battlecityput.Bullet.Direction.UP;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.Rectangle;
@@ -59,7 +63,7 @@ public class Tank extends GameObject
         }
 
         vel = 0.1f;
-        direction = Bullet.Direction.RIGHT;
+        direction = RIGHT;
         lives = 1;
         bulletFired = false;
         this.loadCommonResources();
@@ -78,7 +82,7 @@ public class Tank extends GameObject
         bulletFired = false;
         moveCoolDown = 0;
         shootCoolDown = 100;
-        direction = Bullet.Direction.DOWN;
+        direction = DOWN;
         sprite1 = new Image("surowce/neutral_tank.png");
         sprite2 = new Image("surowce/neutral_tank2.png");
         this.loadCommonResources();
@@ -125,28 +129,28 @@ public class Tank extends GameObject
         switch((int)angle / 90)
         {
             case 0:
-                this.direction = Bullet.Direction.RIGHT;
+                this.direction = RIGHT;
                 if((posY % 16) <= 8)
                     posY -= posY % 16;
                 else
                     posY += 16 - (posY % 16);
                 break;
             case 1:
-                this.direction = Bullet.Direction.DOWN;
+                this.direction = DOWN;
                 if((posX % 16) <= 8)
                     posX -= posX % 16;
                 else
                     posX += 16 - (posX % 16);
                 break;
             case 2:
-                this.direction = Bullet.Direction.LEFT;
+                this.direction = LEFT;
                 if((posY % 16) <= 8)
                     posY -= posY % 16;
                 else
                     posY += 16 - (posY % 16);
                 break;
             case 3:
-                this.direction = Bullet.Direction.UP;
+                this.direction = UP;
                 if((posX % 16) <= 8)
                     posX -= posX % 16;
                 else
@@ -159,6 +163,7 @@ public class Tank extends GameObject
     {
         if(!bulletFired)
         {
+            bulletFired = true;
             BattleCityPUT.addObject(new Bullet(this));
             shootCoolDown = 100 + randomFire;
             if(doPlayShotSound)

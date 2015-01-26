@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 public abstract class GameObject
 {
     Tank parentTank;
+    Bullet.Direction Direction;
     public abstract boolean collides(Tank t);
     
     public abstract boolean draw();
@@ -24,6 +25,10 @@ public abstract class GameObject
     }
 
     void setIsDestroyed(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    Rectangle getRect(float i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 } 

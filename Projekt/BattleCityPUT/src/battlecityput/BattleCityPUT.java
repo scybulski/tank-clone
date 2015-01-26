@@ -119,7 +119,9 @@ public class BattleCityPUT extends BasicGame
             // lista czolgow zawansowanych AI - Robot
             robots = new ArrayList<>();
             //robots.add(new Robot_Droid(new Tank(1)));
-            robots.add(new Robot_Minim(new Tank(2)));
+            //robots.add(new Robot_Minim(new Tank(2)));
+            //robots.add(new Robot_Szymon(new Tank(1)));
+            robots.add(new Robot_Szymon(new Tank(0)));
             //robots.add(new Robot_Kamzyc(new Tank(1)));
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
@@ -128,6 +130,7 @@ public class BattleCityPUT extends BasicGame
         tanks = new ArrayList<>();
         tanks.add(players.get(0));
         tanks.add(robots.get(0).get_tank());
+        //tanks.add(robots.get(1).get_tank());
         //tanks.add(robots.get(1).get_tank());
         tank1P=tanks.get(0);
         //tank1P = robots.get(0).get_tank();
@@ -443,8 +446,43 @@ public class BattleCityPUT extends BasicGame
                                     !(t == tank2P && tank2PImmune > 1))
                                 {
                                     playerExploded.play();
-                                    t.setPosX(randomX);
-                                    t.setPosY(randomY);
+                                    boolean goodPlace;
+                                    do
+                                    {
+                                        randomX = posGenerator.nextInt(353) + margin;
+                                        randomY = posGenerator.nextInt(353) + margin;
+                                        goodPlace = true;
+                                        t.setPosX(randomX);
+                                        t.setPosY(randomY);
+                                        if((randomX < margin) || (randomX > margin + 416)
+                                                || (randomY < margin) || (randomY > margin + 416))
+                                        {
+                                            goodPlace = false;
+                                        }/*
+                                        else
+                                        for(Rectangle block : terrain.get_blocks())
+                                        {
+                                            if(t.getRect(0).intersects(block))
+                                            {
+                                                goodPlace = false;
+                                                break;
+                                            }
+                                        }
+                                        if(goodPlace)
+                                        {
+                                            for(Tank tank : tanks)
+                                            {
+                                        System.out.println("DO WHILE");
+                                                if(tank != t && t.collides(tank))
+                                                {
+                                                    goodPlace = false;
+                                                    break;
+                                                }
+                                            }
+                                        }*/
+                                    }
+                                    while(!goodPlace);
+                                    
                                     if(t == tank1P)  //(playerTank.getLives() <= 0)
                                     {
                                         tank1PImmune = 400;
