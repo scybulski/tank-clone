@@ -43,7 +43,7 @@ public class BattleCityPUT extends BasicGame
     private Counters counters;
     private org.newdawn.slick.geom.Rectangle battlefieldbackground, grayforeground;
     private Music startmusic, endmusic;
-    private boolean playerenginesoundplaying, levelchooser,playerchooser;//,russiantanksoundplaying
+    private boolean playerenginesoundplaying, levelchooser;//,russiantanksoundplaying
     private int isPlayerMoving, tank1PImmune, tank2PImmune;
     private long lasttimetanksspawned;
     
@@ -84,7 +84,6 @@ public class BattleCityPUT extends BasicGame
         
         ai = new Ai();
         levelchooser = true; 
-        playerchooser = true;
         
         counters = new Counters();
         lasttimetanksspawned = System.currentTimeMillis();
@@ -121,7 +120,7 @@ public class BattleCityPUT extends BasicGame
             //robots.add(new Robot_Droid(new Tank(1)));
             //robots.add(new Robot_Kamzyc(new Tank(0)));
             //robots.add(new Robot_Machinated(new Tank(1)));
-            
+            robots.add(new Robot_Szymon(new Tank(2)));
             //robots.add(new Robot_Szymon(new Tank(2)));
             //robots.add(new Robot_Droid(new Tank(1)));
             //robots.add(new Robot_Kamzyc(new Tank(1)));
@@ -134,6 +133,8 @@ public class BattleCityPUT extends BasicGame
         tanks.add(robots.get(0).get_tank());
         //tanks.add(robots.get(1).get_tank());
         //tanks.add(robots.get(2).get_tank());
+        tank1P=tanks.get(0);
+        tank2P=tanks.get(1);
         
         counters = new Counters();
         counters.startGame();
@@ -175,33 +176,6 @@ public class BattleCityPUT extends BasicGame
 
                     startmusic.play();
                 }
-            }
-            else if (playerchooser)
-            {
-                if(input.isKeyPressed(Input.KEY_UP))
-                {
-                    counters.upP1Robot();
-                }
-                else if(input.isKeyPressed(Input.KEY_DOWN))
-                {
-                    counters.dnP1Robot();
-                }
-                if(input.isKeyDown(Input.KEY_ENTER))
-                {
-                    playerchooser = false;
-                    
-                    if(counters.getP1Robot()==1)
-                    {
-                        try {
-                            robots.add(new Robot_Szymon(new Tank(2)));
-                        } catch (MalformedURLException ex) {
-                            Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-                tank1P=tanks.get(0);
-                tank2P=tanks.get(1);
-        
             }
             else
             {
