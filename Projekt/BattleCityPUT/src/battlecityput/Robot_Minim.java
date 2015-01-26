@@ -22,7 +22,7 @@ public class Robot_Minim implements Robot {
     }
 
     @Override
-    public int moveTank(ArrayList<Rectangle> blocks, ArrayList<GameObject> objects, ArrayList<Tank> neutrals, ArrayList<Tank> tanks) {
+    public int moveTank(ArrayList<Rectangle> blocks, ArrayList<GameObject> objects, ArrayList<Tank> neutrals, ArrayList<Tank> tanks, float delta) {
         temp++;
         if (temp>4000)
             temp=0;

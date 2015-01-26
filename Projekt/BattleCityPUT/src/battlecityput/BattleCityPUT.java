@@ -111,22 +111,24 @@ public class BattleCityPUT extends BasicGame
         try {
             // lista czolgow graczy
             players = new ArrayList<>();
-            players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
+            //players.add(new Player(1,Input.KEY_RIGHT,Input.KEY_LEFT,Input.KEY_UP,Input.KEY_DOWN,Input.KEY_RCONTROL));
             //players.add(new Player(2,Input.KEY_D,Input.KEY_A,Input.KEY_W,Input.KEY_S,Input.KEY_SPACE));
             
             // lista czolgow zawansowanych AI - Robot
             robots = new ArrayList<>();
-            //robots.add(new Robot_Minim(new Tank(1)));
+            robots.add(new Robot_Droid(new Tank(1)));
             robots.add(new Robot_Minim(new Tank(2)));
         } catch (MalformedURLException ex) {
             Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         tanks = new ArrayList<>();
-        tanks.add(players.get(0));
+        //tanks.add(players.get(0));
         tanks.add(robots.get(0).get_tank());
-        tank1P=players.get(0);
-        tank2P=robots.get(0).get_tank();
+        tanks.add(robots.get(1).get_tank());
+        //tank1P=players.get(0);
+        tank1P = robots.get(0).get_tank();
+        tank2P=robots.get(1).get_tank();
         
         counters = new Counters();
         counters.startGame();
@@ -201,7 +203,7 @@ public class BattleCityPUT extends BasicGame
 
                 for(Robot robot: robots)
                 {
-                    int action=robot.moveTank(terrain.get_blocks(),objects,neutrals,tanks);
+                    int action=robot.moveTank(terrain.get_blocks(), objects, neutrals, tanks, delta);
                     Tank tank=robot.get_tank();
                     if(action % 5==1)
                     {
