@@ -244,7 +244,7 @@ public class BattleCityPUT extends BasicGame
                     } catch (MalformedURLException ex) {
                         Logger.getLogger(BattleCityPUT.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    if(counters.getLives2P()==7)
+                    if(counters.getP2Robot()==7)
                         tanks.add(players.get(players.size()-1));
                     else
                         tanks.add(robots.get(robots.size()-1).get_tank());
