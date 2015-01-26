@@ -544,7 +544,6 @@ public class BattleCityPUT extends BasicGame
     //                                randomY = posGenerator.nextInt(353) + margin;
       //                          }
         //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32)));
-                                obj.handleCollision();
                                 if(!(t == tank1P && tank1PImmune > 1) &&
                                     !(t == tank2P && tank2PImmune > 1))
                                 {
@@ -609,7 +608,8 @@ public class BattleCityPUT extends BasicGame
                                         }
                                     }
                                 }
-                                //iterator.remove();
+                                obj.handleCollision();
+                                toRemove.add(obj);
                                 collides = true;
                                 break;
                             }

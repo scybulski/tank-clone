@@ -43,6 +43,20 @@ public class Robot_Droid implements Robot
         
         Rectangle opos = getOpponentTank(tanks).getRect(0, 0);
         
+        if(Math.abs(tank.getPosX() - opos.x) < 16)
+        {
+            if(tank.getPosY() < opos.y)
+                return 9;
+            else
+                return 8;
+        }
+        else if(Math.abs(tank.getPosY() - opos.y) < 16)
+        {
+            if(tank.getPosX() < opos.x)
+                return 6;
+            else
+                return 7;
+        }
         if(axis < 250)
         {
             if(tank.getPosX() < opos.x)

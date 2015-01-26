@@ -294,7 +294,7 @@ public class Tank extends GameObject
     
     public void changePosX(float dv)
     {
-        if((posX + dv*vel >= 32) && (posX+dv*vel <= 416))
+        if((posX + dv*vel >= 32 - 5) && (posX+dv*vel <= 416 + 5))
         {
             posX += dv*vel;
         }
@@ -302,7 +302,7 @@ public class Tank extends GameObject
     
     public void changePosY(float dv)
     {
-        if((posY + dv*vel >= 32) && (posY+dv*vel <= 416))
+        if((posY + dv*vel >= 32 - 5) && (posY+dv*vel <= 416 + 5))
         {
             posY += dv*vel;
         }
