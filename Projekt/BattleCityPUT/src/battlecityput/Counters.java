@@ -199,12 +199,15 @@ class Counters {
     public int upP2Robot()
     {
         P2Robot++;
+        System.out.println("LevelChooser P2");
         return P2Robot;
+        
     }
 
     public int upP1Robot()
     {
         P1Robot++;
+        System.out.println("LevelChooser P1");
         return P1Robot;
     }
     
@@ -300,13 +303,16 @@ class Counters {
     public void drawPlayer1Chooser()
     {
         stageText.draw(192, 224);
+        showNumber_blackgray(1, 100, 224);
         showNumber_blackgray(P1Robot, 310, 224);
     }
     
     public void drawPlayer2Chooser()
     {
         stageText.draw(192, 224);
+        showNumber_blackgray(2, 100, 224);
         showNumber_blackgray(P2Robot, 310, 224);
+        System.out.println("LevelChooser P1");
     }
     
     public void drawGameOver()

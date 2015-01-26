@@ -126,38 +126,7 @@ public class BattleCityPUT extends BasicGame
         if(!gameOver)
         {
             Input input = container.getInput();
-            if(levelchooser)
-            {
-                if(input.isKeyPressed(Input.KEY_UP))
-                {
-                    counters.increaseLevelNumber();
-                }
-                else if(input.isKeyPressed(Input.KEY_DOWN))
-                {
-                    counters.decreaseLevelNumber();
-                }
-                if(input.isKeyDown(Input.KEY_ENTER))
-                {
-                    levelchooser = false;
-                    terrain = new Terrain("surowce/stages/"+counters.getLevelNuber()+".tmx");
-                    for(int x = 0; x < terrain.getMap().getWidth(); x++)
-                    {
-                        for(int y = 0; y < terrain.getMap().getHeight(); y++)
-                        {
-                            int tile = terrain.getMap().getTileId(x, y, 0);
-                            String property = terrain.getMap().getTileProperty(tile, "blocked", "false");
-                            if("true".equals(property))
-                            {
-                                terrain.addBlock(new Rectangle((x+1) * Terrain.TILESIZE, (y+1) * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
-                            }
-                        }
-                    }
-
-
-                    startmusic.play();
-                }
-            }
-            else if (playerchooser)
+            if (playerchooser)
             {
                 if(input.isKeyPressed(Input.KEY_UP))
                 {
@@ -167,11 +136,11 @@ public class BattleCityPUT extends BasicGame
                 {
                     counters.dnP1Robot();
                 }
-                if(input.isKeyDown(Input.KEY_ENTER))
+                if(input.isKeyPressed(Input.KEY_ENTER))
                 {
                     playerchooser = false;
                     try {
-                        switch(counters.getLives1P())
+                        switch(counters.getP1Robot())
                         {
                             case 1:
                             {
@@ -230,11 +199,11 @@ public class BattleCityPUT extends BasicGame
                 {
                     counters.dnP2Robot();
                 }
-                if(input.isKeyDown(Input.KEY_ENTER))
+                if(input.isKeyPressed(Input.KEY_ENTER))
                 {
                     playerchooser2 = false;
                      try {
-                        switch(counters.getLives2P())
+                        switch(counters.getP2Robot())
                         {
                             case 1:
                             {
@@ -284,6 +253,35 @@ public class BattleCityPUT extends BasicGame
                 }
                 
             }
+            else if(levelchooser)
+            {
+                if(input.isKeyPressed(Input.KEY_UP))
+                {
+                    counters.increaseLevelNumber();
+                }
+                else if(input.isKeyPressed(Input.KEY_DOWN))
+                {
+                    counters.decreaseLevelNumber();
+                }
+                if(input.isKeyPressed(Input.KEY_ENTER))
+                {
+                    levelchooser = false;
+                    terrain = new Terrain("surowce/stages/"+counters.getLevelNuber()+".tmx");
+                    for(int x = 0; x < terrain.getMap().getWidth(); x++)
+                    {
+                        for(int y = 0; y < terrain.getMap().getHeight(); y++)
+                        {
+                            int tile = terrain.getMap().getTileId(x, y, 0);
+                            String property = terrain.getMap().getTileProperty(tile, "blocked", "false");
+                            if("true".equals(property))
+                            {
+                                terrain.addBlock(new Rectangle((x+1) * Terrain.TILESIZE, (y+1) * Terrain.TILESIZE, Terrain.TILESIZE, Terrain.TILESIZE));
+                            }
+                        }
+                    }
+                    startmusic.play();
+                }
+            }
             else
             {
                 for(Player tank: players)
@@ -312,8 +310,6 @@ public class BattleCityPUT extends BasicGame
                         shoot(tank);
                     }
                 }
-
-
                 for(Robot robot: robots)
                 {
                     int action=robot.moveTank(terrain.get_blocks(), objects, neutrals, tanks, delta);
@@ -698,7 +694,15 @@ public class BattleCityPUT extends BasicGame
     public void render(GameContainer container, Graphics g) throws SlickException
     {
         g.setBackground(org.newdawn.slick.Color.decode("#636363"));  //need2use Color from slick library
-        if(levelchooser)
+        if(playerchooser)
+        {
+            counters.drawPlayer1Chooser();
+        }
+        else if(playerchooser2)
+        {
+            counters.drawPlayer2Chooser();
+        }
+        else if(levelchooser)
         {
             counters.drawLevelChooser();
         }
