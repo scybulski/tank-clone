@@ -51,7 +51,7 @@ public class BattleCityPUT extends BasicGame
     public final static Integer margin = 32;
     private Clip startmusicclip;
     private AudioInputStream inputStream;
-    private AudioClip playerenginesound;//, russianenginesound;
+    private AudioClip playerenginesound, playerExploded, russianExploded;//, russianenginesound;
     Random posGenerator = new Random();
     
     int randomX;
@@ -96,6 +96,8 @@ public class BattleCityPUT extends BasicGame
         URL url;
         try {
             playerenginesound = Applet.newAudioClip(new URL("file:surowce/playerengine.wav"));
+            playerExploded = Applet.newAudioClip(new URL("file:surowce/playerdestroyed.wav"));
+            russianExploded = Applet.newAudioClip(new URL("file:surowce/russiantankdestroyed.wav"));
             //russianenginesound = Applet.newAudioClip(new URL("file:surowce/russiantank.wav"));
 
         } catch (MalformedURLException ex) {
@@ -403,6 +405,7 @@ public class BattleCityPUT extends BasicGame
                                 {
                                     neutral.setIsDestroyed(true);
                                     counters.update1PDestroyedRussian();
+                                    russianExploded.play();
                                 }
                                 neutralIterator.remove();
                                 ai.removeCurrent();
@@ -436,6 +439,7 @@ public class BattleCityPUT extends BasicGame
                                 if(!(t == tank1P && tank1PImmune > 1) &&
                                     !(t == tank2P && tank2PImmune > 1))
                                 {
+                                    playerExploded.play();
                                     t.setPosX(randomX);
                                     t.setPosY(randomY);
                                     if(t == tank1P)  //(playerTank.getLives() <= 0)
