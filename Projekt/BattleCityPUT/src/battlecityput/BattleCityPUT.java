@@ -70,6 +70,7 @@ public class BattleCityPUT extends BasicGame
         {
             AppGameContainer app = new AppGameContainer(new BattleCityPUT());
             app.setDisplayMode(512, 480, false);
+            app.setTargetFrameRate(60);
             app.start();
         }
         catch(SlickException e)
