@@ -432,31 +432,30 @@ public class BattleCityPUT extends BasicGame
     //                                randomY = posGenerator.nextInt(353) + margin;
       //                          }
         //                        while(tank.getRect(0, 0).intersects(new Rectangle(randomX, randomY, 32, 32))); collision ++;
-                                t.setPosX(randomX);
-                                t.setPosY(randomY);
-
-                                //playerTank.decreaseLives();
-                                // ROZROZNIANIE PLAYEROW JAK JUZ BEDZIE WIECEJ
-                                if(t == tank1P)  //(playerTank.getLives() <= 0)
+                                if(!(t == tank1P && tank1PImmune > 1) &&
+                                    !(t == tank2P && tank2PImmune > 1))
                                 {
-                                    //koniec
-                                    // jakos to zrobic
-//                                    if(bullet.parentTank C players)
-//                                    counters.update2PDestroyedOpponent();
-                                    tank1PImmune = 400;
-                                    counters.update2PDestroyedOpponent();
-                                     if(counters.takeLive1P() == 0)
-                                     {
-                                        gameOver = true;
-                                     }
-                                }
-                                else if(t == tank2P)
-                                {
-                                    counters.update1PDestroyedOpponent();
-                                    tank2PImmune = 400;
-                                    if(counters.takeLive2P() == 0)
+                                    t.setPosX(randomX);
+                                    t.setPosY(randomY);
+                                    if(t == tank1P)  //(playerTank.getLives() <= 0)
                                     {
-                                        gameOver = true;
+                                        tank1PImmune = 400;
+                                        if(obj.parentTank == tank2P)
+                                            counters.update2PDestroyedOpponent();
+                                         if(counters.takeLive1P() == 0)
+                                         {
+                                            gameOver = true;
+                                         }
+                                    }
+                                    else if(t == tank2P)
+                                    {
+                                        if(obj.parentTank == tank1P)
+                                            counters.update1PDestroyedOpponent();
+                                        tank2PImmune = 400;
+                                        if(counters.takeLive2P() == 0)
+                                        {
+                                            gameOver = true;
+                                        }
                                     }
                                 }
                                 obj.handleCollision();
@@ -577,13 +576,11 @@ public class BattleCityPUT extends BasicGame
             }
             if(tank1PImmune > 0)
             {
-                System.out.println("DRAW IMMUNE");
                 tank1PImmune--;
                 tank1P.drawImmune();
             }
             if(tank2PImmune > 0)
             {
-                System.out.println("DRAW IMMUNE");
                 tank2PImmune--;
                 tank2P.drawImmune();
             }

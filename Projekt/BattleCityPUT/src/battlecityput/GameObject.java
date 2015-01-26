@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 public abstract class GameObject
 {
+    Tank parentTank;
     public abstract boolean collides(Tank t);
     
     public abstract boolean draw();
