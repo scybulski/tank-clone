@@ -30,8 +30,8 @@ class Counters {
     
     public int russianTanksLeft, lives1P, lives2P, level, points1P, points2P,
             russianDestroyed1P, russianDestroyed2P, opponentDestroyed1P, opponentDestroyed2P;
-    private int P1Robot = 0;
-    private int P2Robot = 0;
+    private int P1Robot = 1;
+    private int P2Robot = 1;
 
     public Counters() throws SlickException
     {
@@ -198,7 +198,8 @@ class Counters {
     
     public int upP2Robot()
     {
-        P2Robot++;
+        if(P2Robot<7)
+            P2Robot++;
         System.out.println("LevelChooser P2");
         return P2Robot;
         
@@ -206,20 +207,23 @@ class Counters {
 
     public int upP1Robot()
     {
-        P1Robot++;
+        if(P1Robot<7)
+            P1Robot++;
         System.out.println("LevelChooser P1");
         return P1Robot;
     }
     
     public int dnP2Robot()
     {
-        P2Robot--;
+        if(P2Robot>1)
+            P2Robot--;
         return P2Robot;
     }
 
     public int dnP1Robot()
     {
-        P1Robot--;
+        if(P1Robot>1)
+            P1Robot--;
         return P1Robot;
     }
     
